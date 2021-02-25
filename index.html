@@ -1,0 +1,182 @@
+<!DOCTYPE html><html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="build/stylesheet.css">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/andreasplesch/aframe-meshline-component/master/dist/aframe-meshline-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-geometry-merger-component/dist/aframe-geometry-merger-component.min.js"></script>
+    <script src="asset-on-demand.js"></script>
+  </head>
+  <body>
+
+    <div id="overlay-container" style="visibility: visible; display: flex; position: absolute; top: 100vh; left: 0; height: 100vh; width: 100%; z-index: 2">
+      <div id="overlay" class="p-10 text-center flex flex-col place-content-center justify-items-center items-center space-y-4  bg-green-900" style="color: white; width: 100%; max-width: 600px; margin: 25px; ">
+        <button id="close" class="focus:outline-none text-white text-sm py-2.5 px-5 bg-green-700 hover:bg-green-800 hover:shadow-lg flex items-center" style="position: absolute; top:25px; left: 25px;">✕ close</button>
+        <h1 id="species_guess" class="text-5xl"></h1>
+        <div id="photos"></div>
+        <div id="place_guess"></div>
+      </div>
+    </div>
+
+    <a-scene cursor="rayOrigin:mouse" renderer="antialias: true">
+      <a-assets>
+      </a-assets>
+      <a-sky fog="type: linear; color: #fff; far: 5; near: 0" color="#fff" ></a-sky>
+
+      <a-light type="ambient" intensity="1" color="white"></a-light>
+      <a-light type="point" intensity=".15" position="0 2 0" color="white"></a-light>
+    </a-scene>
+    <!-- <script src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js'></script> -->
+    <!-- Ulu's Google API Script -->
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3_69wsiBbL0UU8r496ezIR99o67pTkRk&callback=initMap"
+      type="text/javascript"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script>
+    function initMap() {
+      const localsky = { lat: 20.891111, lng: -156.504722 };
+      const panorama = new google.maps.StreetViewPanorama(
+        document.getElementById("pano"),
+        {
+          position: localsky,
+          pov: {
+            heading: 34,
+            pitch: 10,
+          },
+          addressControlOptions: {
+            position: google.maps.ControlPosition.BOTTOM_CENTER,
+          },
+          linksControl: false,
+          panControl: false,
+          enableCloseButton: false,
+          zoomControl: false,
+          addressControl: false,
+          motionTrackingControl: true,
+          fullscreenControl: false,
+          showRoadLabels: false,
+
+        }
+      );
+      map.setStreetView(panorama);
+    }
+
+    </script> -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/shpjs@latest/dist/shp.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js" integrity="sha512-b/htz6gIyFi3dwSoZ0Uv3cuv3Ony7EeKkacgrcVg8CMzu90n777qveu0PBcbZUA7TzyENGtU+qZRuFAkfqgyoQ==" crossorigin="anonymous"></script>
+    <script src="entities.js"></script>
+    <script src="search.js"></script>
+    <script>
+      var inat_data = ["species_guess", "place_guess"]
+      var observations = [];
+      var basket = [];
+
+      var hideObservationCard = () => {$("#overlay-container").animate({top:"100vh"});}
+
+      var displayObservationCard = (index) => {
+        $("#overlay-container").animate({top:0});
+        basket.push(observations[index]);
+
+        for(var j = 0; j < inat_data.length; j++){
+          var tag = "#" + inat_data[j];
+          $(tag).html('');
+
+          if(inat_data[j] == "photos"){
+            for(var k = 0; k < observations[index]["photos"].length; k++){
+              $(tag).append('<img src="'+ observations[index]["photos"][k].url +'"/>');
+            }
+          } else {
+            $(tag).html(observations[index][inat_data[j]]);
+          }
+        }
+      }
+
+      var drawArches = () => {
+        var sceneEl = document.querySelector('a-scene');
+        var numArch = 10;
+        var rotationLvl = (Math.PI * 2) / numArch;
+
+        for(var i = 0; i < numArch; i++){
+          var d = [];
+          for(var j = i; j < observations.length; j += numArch){
+            d.push(j);
+          }
+          var schema = {rotation: rotationLvl * i, cards: d};
+          var entityEl = document.createElement('a-entity');
+
+          entityEl.setAttribute('arch', schema);
+          sceneEl.appendChild(entityEl);
+        }
+
+        var trelisEl = document.createElement('a-entity');
+        trelisEl.setAttribute('trelis', {numArch: 13});
+        sceneEl.appendChild(trelisEl);
+
+      };
+
+
+      function setup(){
+
+        $('#close,#overlay-container').on("click", () => { hideObservationCard() })
+        $('#overlay').on("click", (e) => { e.preventDefault(); return false; })
+        // sample data
+        // for(var k = 0; k < 500; k++){
+        //   observations.push({val: k});
+        // }
+
+        // real data
+        getData = airtableSearch();
+        getData.then(() => {
+          drawArches();
+          // shp("wwf_terr_ecos").then(async (geojson) => {
+          //   // drawArches();
+          //   console.log("loaded")
+          //   var turfPolygons = [];
+          //   for(var j = 0; j < observations.length; j++){
+          //     var pt = false;
+          //     if(observations[j].location){
+          //       pt = observations[j].location.split(",");
+          //       pt = [parseFloat(pt[0]), parseFloat(pt[1])]
+          //       pt = turf.point(pt);
+          //       console.log(pt)
+          //     } else if(observations[j].place_ids.length > 0){
+          //       // await new Promise( (resolve, reject) => {
+          //       //           var place = observations[j].place_ids[observations[j].place_ids.length-1];
+          //       //           console.log(place)
+          //       //           resolve();
+          //       //           // $.ajax({
+          //       //           //     url: "https://api.inaturalist.org/v1/places/" + place,
+          //       //           //     success: function(data) {
+          //       //           //       pt = data.results.location.split(",");
+          //       //           //       pt = [parseFloat(pt[0]), parseFloat(pt[1])]
+          //       //           //       pt = turf.point(pt);
+          //       //           //       resolve();
+          //       //           //     }
+          //       //           // });
+          //       //       });
+          //     }
+          //
+          //     if(pt){
+          //
+          //       for(var i = 0; i < geojson.features.length; i++){
+          //         if(!turfPolygons[i]){
+          //           turfPolygons.push(turf.polygon(geojson.features[i].geometry.coordinates[0]));
+          //         }
+          //         console.log(turfPolygons[i]);
+          //
+          //         var inside = turf.booleanPointInPolygon(pt, turfPolygons[i]);
+          //         if(inside){
+          //           console.log(observations[j].place_guess)
+          //           console.log(geojson.features[i].properties)
+          //           observations[j].bioregion = geojson.features[i].properties.ECO_NAME;
+          //         }
+          //
+          //       }
+          //     }
+          //   }
+        	// });
+        })
+      }
+
+
+    </script>
+  </body>
+</html>

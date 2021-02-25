@@ -1,0 +1,28 @@
+{
+  "name": "mozfest",
+  "version": "1.0.0",
+  "description": "secret project",
+  "main": "entities.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cathrynploehn/mozFest.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cathrynploehn/mozFest/issues"
+  },
+  "homepage": "https://github.com/cathrynploehn/mozFest#readme",
+  "dependencies": {
+    "autoprefixer": "^10.2.4",
+    "gulp": "^4.0.2",
+    "gulp-postcss": "^9.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "postcss": "^8.2.6",
+    "precss": "^4.0.0",
+    "tailwindcss": "^2.0.3"
+  }
+}
