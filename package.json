@@ -17,12 +17,25 @@
   },
   "homepage": "https://github.com/cathrynploehn/mozFest#readme",
   "dependencies": {
+    "@babel/core": "^7.13.1",
     "autoprefixer": "^10.2.4",
+    "babel-preset-env": "^1.7.0",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
     "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
     "gulp-postcss": "^9.0.0",
     "gulp-sourcemaps": "^3.0.0",
+    "gulplog": "^1.0.0",
+    "lodash.assign": "^4.2.0",
     "postcss": "^8.2.6",
     "precss": "^4.0.0",
-    "tailwindcss": "^2.0.3"
+    "tailwindcss": "^2.0.3",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.13.5"
   }
 }
