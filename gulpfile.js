@@ -35,10 +35,10 @@ function cssTask(cb) {
 
 function bundle() {
   return browserify(['./src/index.js'])
-  .transform("babelify", {presets: ["@babel/preset-env"]})
-  .bundle()
-  .pipe(source('bundle.js'))
-  .pipe(dest('./build'));
+    .transform("babelify", {presets: ["@babel/preset-env"]})
+    .bundle()
+    .pipe(source('bundle.js'))
+    .pipe(dest('./build'));
 }
 
 // b.on('update', bundle); // on any dep update, runs the bundler
