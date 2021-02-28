@@ -31176,8 +31176,19 @@ video {
           animation: bounce 1s infinite;
 }
 
-body {
-  color: 'black'
+html {
+  font-family: 'Poppins', sans-serif;
+}
+
+#photo-container {
+  max-height: 40vh;
+  overflow: hidden;
+}
+
+#photo {
+  position: relative;
+  top: 50%;
+  transform: translate(0,-50%);
 }
 
 @media (min-width: 640px) {
@@ -183919,5 +183930,4 @@ body {
             animation: bounce 1s infinite;
   }
 }
-
 /*# sourceMappingURL=stylesheet.css.map */

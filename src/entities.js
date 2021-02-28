@@ -38,14 +38,16 @@ var entities = (observations, basket) => {
         el.object3D.lookAt(0, 2, 0)
         // this.el.object3D.rotation.y ;
         el.addEventListener('mouseenter', function () {
-          el.object3D.scale.copy({x: 2.5, y: 2.5, z:2.5});
+          el.object3D.scale.copy({x: 1.5, y: 1.5, z:1.5});
         });
         el.addEventListener('mouseleave', function () {
           el.object3D.scale.copy({x: 1, y: 1, z:1});
         });
         this.el.addEventListener('click', function () {
-          entityEvent.displayObservationCard(self.data.index, observations, basket);
           el.setAttribute('animation', 'property: position; to: 0 0 0');
+          window.setTimeout(function(){
+            entityEvent.displayObservationCard(self.data.index, observations, basket);
+          },700);
         });
       }
     });

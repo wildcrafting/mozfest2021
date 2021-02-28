@@ -72,9 +72,9 @@ var entities = function entities(observations, basket) {
 
       el.addEventListener('mouseenter', function () {
         el.object3D.scale.copy({
-          x: 2.5,
-          y: 2.5,
-          z: 2.5
+          x: 1.5,
+          y: 1.5,
+          z: 1.5
         });
       });
       el.addEventListener('mouseleave', function () {
@@ -85,8 +85,10 @@ var entities = function entities(observations, basket) {
         });
       });
       this.el.addEventListener('click', function () {
-        entityEvent.displayObservationCard(self.data.index, observations, basket);
         el.setAttribute('animation', 'property: position; to: 0 0 0');
+        window.setTimeout(function () {
+          entityEvent.displayObservationCard(self.data.index, observations, basket);
+        }, 700);
       });
     }
   });
@@ -237,7 +239,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.hideObservationCard = exports.displayObservationCard = void 0;
-var inat_data = ["species_guess", "place_guess"];
+var inat_data = ["species_guess", "description", "photo", "participant_name"];
 
 var hideObservationCard = function hideObservationCard() {
   $("#overlay-container").animate({
@@ -257,10 +259,14 @@ var displayObservationCard = function displayObservationCard(index, observations
     var tag = "#" + inat_data[j];
     $(tag).html('');
 
-    if (inat_data[j] == "photos") {
-      for (var k = 0; k < observations[index]["photos"].length; k++) {
-        $(tag).append('<img src="' + observations[index]["photos"][k].url + '"/>');
-      }
+    if (inat_data[j] == "photo") {
+      // for(var k = 0; k < observations.length; k++){
+      if (observations[index].hasOwnProperty('observation_photo_url')) {
+        $('#photo').attr('src', observations[index]["observation_photo_url"]);
+      } else {
+        $('#photo').attr('src', observations[index]["default_photo"]);
+      } // }
+
     } else {
       $(tag).html(observations[index][inat_data[j]]);
     }
