@@ -46,4 +46,22 @@ function bundle() {
 
 exports.css = cssTask;
 exports.build = bundle;
-exports.default = series(cssTask, bundle)
+exports.default = series(cssTask, bundle);
+
+//added by Ulu for sass
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+
+//compile scss
+gulp.task('sass', function() {
+  return gulp.src("css/scss/main.scss")
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('build'))
+});
+
+/*
+ * Watch prefixes
+ */
+gulp.task('watch', function() {
+    gulp.watch('css/scss/**', gulp.series('sass'));
+});

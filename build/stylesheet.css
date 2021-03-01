@@ -31178,10 +31178,11 @@ video {
 
 html {
   font-family: 'Poppins', sans-serif;
+  text-transform: lowercase;
 }
 
 #photo-container {
-  max-height: 40vh;
+  max-height: 30vh;
   overflow: hidden;
 }
 
@@ -31189,6 +31190,18 @@ html {
   position: relative;
   top: 50%;
   transform: translate(0,-50%);
+}
+
+#pano {
+  /* float: left; */
+  height: 100%;
+  width: 100%;
+  z-index: -1000000;
+  filter: blur(.5rem);
+}
+
+.gm-style-cc {
+  display: none;
 }
 
 @media (min-width: 640px) {

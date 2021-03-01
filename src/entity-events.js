@@ -19,7 +19,6 @@ var displayObservationCard = (index, observations, basket) => {
       // }
     } else {
       $(tag).html(observations[index][inat_data[j]]); 
-
     }
   }
 }

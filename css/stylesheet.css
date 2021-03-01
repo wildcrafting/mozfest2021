@@ -2,17 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  font-family: 'Poppins', sans-serif;
-}
-
-#photo-container {
-  max-height: 40vh;
-  overflow: hidden;
-}
-
-#photo {
-  position: relative;
-  top: 50%;
-  transform: translate(0,-50%);
-}
