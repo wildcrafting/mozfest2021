@@ -45,9 +45,9 @@ var entities = (observations, basket) => {
         });
         this.el.addEventListener('click', function () {
           el.setAttribute('animation', 'property: position; to: 0 0 0');
-          window.setTimeout(function(){
+          // window.setTimeout(function(){
             entityEvent.displayObservationCard(self.data.index, observations, basket);
-          },700);
+          // },700);
         });
       }
     });

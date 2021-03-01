@@ -25,3 +25,12 @@ html {
 .gm-style-cc {
   display: none;
 }
+
+.loading-bg {
+  background: linear-gradient(to bottom right, #07A154, #0786A1);
+}
+
+#wordmark {
+  height: 100%;
+  margin: auto;
+}

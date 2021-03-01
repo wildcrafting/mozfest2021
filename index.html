@@ -3,6 +3,7 @@
     <link rel="stylesheet" type="text/css" href="build/stylesheet.css">
     <link rel="stylesheet" type="text/css" href="build/main.css">
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <!-- <script src="src/open-close-events.js"></script> -->
         <!-- ULU: AR + Mouse cursor -->
         <script>src="ar-components.js"</script>
         <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
@@ -15,8 +16,8 @@
   </head>
   <body>
     <!-- Ulu's Google API Script -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3_69wsiBbL0UU8r496ezIR99o67pTkRk&callback=initMap"
-      type="text/javascript"></script>
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3_69wsiBbL0UU8r496ezIR99o67pTkRk&callback=initMap"
+      type="text/javascript"></script> -->
       <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
       <script>
       function initMap() {
@@ -45,27 +46,41 @@
         );
         map.setStreetView(panorama);
       }
-      
-  
       </script>
 
 
+<div class="loading-bg absolute h-full w-full z-20 flex flex-col justify-center">
+  <img id="wordmark" class="hidden" src="assets/wildcrafting.svg">
+  <div id="intro-1" class="p-12 font-extralight text-white text-3xl text-center w-full h-96 flex flex-col justify-between justify-items-center items-center">
+    <div>welcome to the atrium</div>
+    <div> see the diversity of plant life that other MozFesters have added.</div>
+    <button id="next" class="fal fa-dice-d10 focus:outline-none text-white text-2xl leading-6 p-3 flex items-center rounded-full border border-white" style=""></button>
+  </div>
+</div>
 
 
-    <div id="overlay-container" style="visibility: visible; display: flex; position: absolute; top: 100vh; left: 0; height: 100vh; width: 100%; z-index: 2">
-      <div id="overlay" class="p-10 text-center flex flex-col place-content-center justify-items-center items-center bg-yellow-50 text-yellow-900" style="width: 100%; max-width: 600px; margin: 25px; ">
-        <!-- <h1 id="species_guess" class="text-5xl text-yellow-900"></h1> -->
-        <i class="far fa-seedling text-xl text-gray-700"></i>
-        <div class="w-12 border-b border-gray-700 my-8"></div>
-        <!-- <h2 id="participant_name" class="text-l text-yellow-900"></h2> -->
+
+    <div id="overlay-container" class="w-full h-screen transition ease-out visible" style="display: flex; position: absolute; top: 100vh; left: 0; z-index: 2">
+      <div id="overlay" class="p-8 text-center w-full max-w-xl m-6 flex flex-col justify-between justify-items-center items-center bg-yellow-50" style="">
+        <div class="flex flex-col justify-items-center items-center ">
         <div id="photo-container">
           <img id="photo">
         </div>
-        <div class="text-l font-light text-gray-700 my-8"><span id="participant_name" class="font-semibold"></span> told us of <span id="species_guess" class="font-semibold"></span>, saying: <span id="description"></span></div>
-        <div id="description" class="text-gray-700"></div>
-        <button id="close" class="fal fa-dice-d10 focus:outline-none text-gray-700 text-lg py-5 px-5 hover:bg-yellow-100 flex items-center rounded-full border border-gray-700" style=""></button>
+        <i class="fal fa-seedling mt-8 text-xl text-gray-700"></i>
+        <div class="divider my-8 w-12 border-b border-gray-700"></div>
+        <div class="text-md font-light text-gray-700"><span id="participant_name" class="font-semibold"></span> told us of <span id="species_guess" class="font-semibold"></span>, saying: <span id="description"></span></div>
+        <div class="divider my-8 w-12 border-b border-gray-700"></div>
+      </div>
+        <button id="close" class="fal fa-dice-d10 focus:outline-none text-gray-700 text-2xl p-3 hover:bg-yellow-100 flex items-center rounded-full border border-gray-700" style=""></button>
       </div>
     </div>
+
+
+
+
+  </div>
+  <button id="view-cards" class="fal fa-dice-d10 focus:outline-none text-white text-2xl p-3 flex items-center rounded-full border border-white absolute m-5 bottom-0 right-0 z-10" style=""></button>
+</div>
 
     <div id="pano"></div>
     <a-scene cursor="rayOrigin:mouse" renderer="antialias: true">
@@ -85,8 +100,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js" integrity="sha512-b/htz6gIyFi3dwSoZ0Uv3cuv3Ony7EeKkacgrcVg8CMzu90n777qveu0PBcbZUA7TzyENGtU+qZRuFAkfqgyoQ==" crossorigin="anonymous"></script>
     <script src="build/bundle.js"></script>
     <!-- <script src="search.js"></script> -->
-        <!-- ULU: GOOGLE MAPS THING THAT MUST COME LAST -->
 
+
+        <!-- ULU: GOOGLE MAPS THING THAT MUST COME LAST -->
         <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initMap&libraries=&v=weekly"
         async

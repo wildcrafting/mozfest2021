@@ -33,7 +33,6 @@ function setup(){
 
   // real data
   var getData = search.airtableSearch(observations);
-
   getData.then((d) => {
     entities.entities(observations, basket);
     drawArches();

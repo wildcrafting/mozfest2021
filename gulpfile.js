@@ -48,7 +48,7 @@ exports.css = cssTask;
 exports.build = bundle;
 exports.default = series(cssTask, bundle);
 
-//added by Ulu for sass
+//Everything below here was added by Ulu for sass
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 
