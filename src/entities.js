@@ -6,6 +6,7 @@ var defaultMaterial = new THREE.MeshStandardMaterial({color: 0x331a00});
 var radius = 3;
 
 var entities = (observations, basket) => {
+  entityEvent.init(basket);
 
   AFRAME.registerComponent('card', {
     schema: {

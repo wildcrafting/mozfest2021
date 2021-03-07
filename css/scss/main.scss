@@ -3,16 +3,18 @@ html {
   text-transform: lowercase;
 }
 
-#photo-container {
-  max-height: 30vh;
-  overflow: hidden;
+#card {  
+  #photo-container {
+    max-height: 30vh;
+    overflow: hidden;
+    #photo {
+      position: relative;
+      top: 50%;
+      transform: translate(0,-50%);
+    }
+  }
 }
 
-#photo {
-  position: relative;
-  top: 50%;
-  transform: translate(0,-50%);
-}
 
 #pano {
   /* float: left; */

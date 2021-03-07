@@ -1,49 +1,67 @@
-var inat_data = ["species_guess", "description", "photo", "participant_name"];
-var hideObservationCard = () => {$("#overlay-container").animate({top:"100vh"});}
+import * as Artifact from './cards-artifact.js';
 
+var inat_data = ["species_guess", "description", "photo", "participant_name"];
+var cardHTML = '<div id="card-num" class="text-md m-3 font-light border-2 border-gray-400 bg-yellow-50 text-gray-700 w-48 m-0.5 max-h-96 flex flex-col justify-items-center items-center"><div id="photo-container"><img id="photo"></div><i class="fal fa-seedling mt-2 text-xl text-gray-700"></i><div class="divider my-2 w-12 border-b border-gray-700"></div><div class="p-3 text-md font-light text-gray-700"><span id="participant_name" class="font-semibold"></span> told us of <span id="species_guess" class="font-semibold"></span>, saying: <span id="description"></span></div><div class="divider my-8 w-12 border-b border-gray-700"></div></div>'
+var artifact;
+
+
+// Card animations
+var hideObservationCard = () => {$("#overlay-container").animate({top:"100vh"});}
 var displayObservationCard = (index, observations, basket) => {
   basket.push(observations[index]);
+  populateCard("#card", observations[index]);
+
+  // new card
+  var num = "card-num" + basket.length;
+  var newCard = cardHTML.replace("card-num", num)
+  $("#all-cards").append(newCard);
+  num = "#" + num;
+  populateCard(num, observations[index]);
+
+  window.setTimeout(function(){
+    $("#overlay-container").animate({top:0});
+  },700);
+}
+
+var populateCard = (parent, observation) => {
   for(var j = 0; j < inat_data.length; j++){
-    var tag = "#" + inat_data[j];
+    var tag = parent + " #" + inat_data[j];
     $(tag).html('');
 
     if(inat_data[j] == "photo"){
-      // for(var k = 0; k < observations.length; k++){
-       if (observations[index].hasOwnProperty('observation_photo_url')) {
-        $('#photo').attr('src', observations[index]["observation_photo_url"]);
+       if (observation.hasOwnProperty('observation_photo_url')) {
+        $(tag).attr('src', observation["observation_photo_url"]);
        } else {
-        $('#photo').attr('src', observations[index]["default_photo"]);
+        $(tag).attr('src', observation["default_photo"]);
       }
-      // }
     } else {
-      $(tag).html(observations[index][inat_data[j]]); 
+      $(tag).html(observation[inat_data[j]]);
     }
   }
-  window.setTimeout(function(){
-  $("#overlay-container").animate({top:0});
-},700);
 }
 
-$('#close,#overlay-container').on("click", () => { hideObservationCard() })
-$('#overlay').on("click", (e) => { e.preventDefault(); return false; })
+// Show all cards animations
+var hideAllCards = () => {$("#overlay-container-all-cards").animate({top:"100vh"})};
+var showAllCards = (basket) => {
+  $("#overlay-container-all-cards").animate({top:0});
+}
 
-export {displayObservationCard,hideObservationCard}
+var init = (basket) => {
+  var artifact = new Artifact.Artifact(basket);
+  console.log(Artifact);
+
+
+  $('#close,#overlay-container').on("click", () => { hideObservationCard(); hideAllCards(); })
+  $('#overlay').on("click", (e) => { e.preventDefault(); return false; })
+
+  $("#view-cards").on("click", () => { showAllCards(basket); });
+
+  $('#export').on("click", () => {
+    artifact.exportCards();
+  });
+
+}
 
 
 
-// Open and close events
-
-$( document ).ready(function() {
-  console.log( "ready!" );
-//on page load, start splash screen
-$("#wordmark").delay(3000).fadeIn(1000).delay(3000).fadeOut(1000);
-  //after 5s, fade out title, fade in instructions, load gmaps in bg
-  $("#intro-1").css("display", "flex").hide().delay(8500).fadeIn(1000);
-
-//after clicking button, fade element
-$("#next").click(function() {
-  $(".loading-bg").fadeOut(1000);
-});
-
-  //end jquery
-});
+export {displayObservationCard,hideObservationCard,init}

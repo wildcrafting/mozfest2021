@@ -3,12 +3,11 @@ html {
   text-transform: lowercase;
 }
 
-#photo-container {
+#card #photo-container {
   max-height: 30vh;
   overflow: hidden;
 }
-
-#photo {
+#card #photo-container #photo {
   position: relative;
   top: 50%;
   transform: translate(0, -50%);

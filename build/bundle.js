@@ -7,6 +7,77 @@
 },{}],2:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Artifact = Artifact;
+
+var _p = _interopRequireDefault(require("p5"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function Artifact(basket) {
+  var canvasID;
+
+  var artifactSketch = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(p) {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              p.setup = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                var elem, canvas;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                  while (1) {
+                    switch (_context.prev = _context.next) {
+                      case 0:
+                        p.frameRate(24);
+                        elem = document.getElementById("card-overlay");
+                        canvas = p.createCanvas(elem.clientWidth, elem.clientHeight);
+                        canvasID = canvas.id('artifactCanvas');
+                        console.log(p);
+
+                      case 5:
+                      case "end":
+                        return _context.stop();
+                    }
+                  }
+                }, _callee);
+              }));
+
+              p.draw = function () {
+                p.background(0);
+              };
+
+            case 2:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    return function artifactSketch(_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  this.exportCards = function () {
+    var canvas = document.getElementById("artifactCanvas");
+    var img = canvas.toDataURL("image/png");
+    document.write('<img src="' + img + '"/>');
+  };
+
+  var sketch = new _p["default"](artifactSketch, document.getElementById('artifact-container'));
+}
+
+},{"p5":1}],3:[function(require,module,exports){
+"use strict";
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
@@ -31,6 +102,7 @@ var defaultMaterial = new THREE.MeshStandardMaterial({
 var radius = 3;
 
 var entities = function entities(observations, basket) {
+  entityEvent.init(basket);
   AFRAME.registerComponent('card', {
     schema: {
       position: {
@@ -231,14 +303,25 @@ var entities = function entities(observations, basket) {
 
 exports.entities = entities;
 
-},{"./entity-events.js":3,"p5":1}],3:[function(require,module,exports){
+},{"./entity-events.js":4,"p5":1}],4:[function(require,module,exports){
 "use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.hideObservationCard = exports.displayObservationCard = void 0;
+exports.init = exports.hideObservationCard = exports.displayObservationCard = void 0;
+
+var Artifact = _interopRequireWildcard(require("./cards-artifact.js"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 var inat_data = ["species_guess", "description", "photo", "participant_name"];
+var cardHTML = '<div id="card-num" class="text-md m-3 font-light border-2 border-gray-400 bg-yellow-50 text-gray-700 w-48 m-0.5 max-h-96 flex flex-col justify-items-center items-center"><div id="photo-container"><img id="photo"></div><i class="fal fa-seedling mt-2 text-xl text-gray-700"></i><div class="divider my-2 w-12 border-b border-gray-700"></div><div class="p-3 text-md font-light text-gray-700"><span id="participant_name" class="font-semibold"></span> told us of <span id="species_guess" class="font-semibold"></span>, saying: <span id="description"></span></div><div class="divider my-8 w-12 border-b border-gray-700"></div></div>';
+var artifact; // Card animations
 
 var hideObservationCard = function hideObservationCard() {
   $("#overlay-container").animate({
@@ -250,24 +333,13 @@ exports.hideObservationCard = hideObservationCard;
 
 var displayObservationCard = function displayObservationCard(index, observations, basket) {
   basket.push(observations[index]);
+  populateCard("#card", observations[index]); // new card
 
-  for (var j = 0; j < inat_data.length; j++) {
-    var tag = "#" + inat_data[j];
-    $(tag).html('');
-
-    if (inat_data[j] == "photo") {
-      // for(var k = 0; k < observations.length; k++){
-      if (observations[index].hasOwnProperty('observation_photo_url')) {
-        $('#photo').attr('src', observations[index]["observation_photo_url"]);
-      } else {
-        $('#photo').attr('src', observations[index]["default_photo"]);
-      } // }
-
-    } else {
-      $(tag).html(observations[index][inat_data[j]]);
-    }
-  }
-
+  var num = "card-num" + basket.length;
+  var newCard = cardHTML.replace("card-num", num);
+  $("#all-cards").append(newCard);
+  num = "#" + num;
+  populateCard(num, observations[index]);
   window.setTimeout(function () {
     $("#overlay-container").animate({
       top: 0
@@ -276,27 +348,59 @@ var displayObservationCard = function displayObservationCard(index, observations
 };
 
 exports.displayObservationCard = displayObservationCard;
-$('#close,#overlay-container').on("click", function () {
-  hideObservationCard();
-});
-$('#overlay').on("click", function (e) {
-  e.preventDefault();
-  return false;
-});
-// Open and close events
-$(document).ready(function () {
-  console.log("ready!"); //on page load, start splash screen
 
-  $("#wordmark").delay(3000).fadeIn(1000).delay(3000).fadeOut(1000); //after 5s, fade out title, fade in instructions, load gmaps in bg
+var populateCard = function populateCard(parent, observation) {
+  for (var j = 0; j < inat_data.length; j++) {
+    var tag = parent + " #" + inat_data[j];
+    $(tag).html('');
 
-  $("#intro-1").css("display", "flex").hide().delay(8500).fadeIn(1000); //after clicking button, fade element
+    if (inat_data[j] == "photo") {
+      if (observation.hasOwnProperty('observation_photo_url')) {
+        $(tag).attr('src', observation["observation_photo_url"]);
+      } else {
+        $(tag).attr('src', observation["default_photo"]);
+      }
+    } else {
+      $(tag).html(observation[inat_data[j]]);
+    }
+  }
+}; // Show all cards animations
 
-  $("#next").click(function () {
-    $(".loading-bg").fadeOut(1000);
-  }); //end jquery
-});
 
-},{}],4:[function(require,module,exports){
+var hideAllCards = function hideAllCards() {
+  $("#overlay-container-all-cards").animate({
+    top: "100vh"
+  });
+};
+
+var showAllCards = function showAllCards(basket) {
+  $("#overlay-container-all-cards").animate({
+    top: 0
+  });
+};
+
+var init = function init(basket) {
+  var artifact = new Artifact.Artifact(basket);
+  console.log(Artifact);
+  $('#close,#overlay-container').on("click", function () {
+    hideObservationCard();
+    hideAllCards();
+  });
+  $('#overlay').on("click", function (e) {
+    e.preventDefault();
+    return false;
+  });
+  $("#view-cards").on("click", function () {
+    showAllCards(basket);
+  });
+  $('#export').on("click", function () {
+    artifact.exportCards();
+  });
+};
+
+exports.init = init;
+
+},{"./cards-artifact.js":2}],5:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -304,6 +408,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 var entities = _interopRequireWildcard(require("./entities.js"));
 
 var search = _interopRequireWildcard(require("./search.js"));
+
+var openClose = _interopRequireWildcard(require("./open-close-events.js"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -340,18 +446,37 @@ var drawArches = function drawArches() {
   sceneEl.appendChild(trelisEl);
 };
 
-function setup() {
-  // real data
+$(document).ready(function () {
+  openClose.splashScreen();
   var getData = search.airtableSearch(observations);
   getData.then(function (d) {
     entities.entities(observations, basket);
     drawArches();
   });
-}
+});
 
-setup();
+},{"./entities.js":3,"./open-close-events.js":6,"./search.js":7}],6:[function(require,module,exports){
+"use strict";
 
-},{"./entities.js":2,"./search.js":5}],5:[function(require,module,exports){
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.splashScreen = void 0;
+
+var splashScreen = function splashScreen() {
+  // //on page load, start splash screen
+  $("#wordmark").delay(3000).fadeIn(1000).delay(3000).fadeOut(1000); //after 5s, fade out title, fade in instructions, load gmaps in bg
+
+  $("#intro-1").css("display", "flex").hide().delay(8500).fadeIn(1000); //after clicking button, fade element
+
+  $("#next").click(function () {
+    $(".loading-bg").fadeOut(1000);
+  });
+};
+
+exports.splashScreen = splashScreen;
+
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -425,7 +550,7 @@ function _airtableSearch() {
           case 0:
             airtablePromise = new Promise(function (resolve, reject) {
               $.ajax({
-                url: "https://api.airtable.com/v0/appIRHtaHUcrpPCvK/Observation?api_key=keyQSVeKTIgDnDvgT",
+                url: "https://api.airtable.com/v0/appIRHtaHUcrpPCvK/MozFestTest?api_key=keyQSVeKTIgDnDvgT",
                 success: function success(data) {
                   for (var i = 0; i < data.records.length; i++) {
                     observations.push(data.records[i].fields);
@@ -447,4 +572,4 @@ function _airtableSearch() {
   return _airtableSearch.apply(this, arguments);
 }
 
-},{}]},{},[4]);
+},{}]},{},[5]);

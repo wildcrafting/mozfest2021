@@ -3,6 +3,7 @@ var basket = [];
 
 import * as entities from './entities.js';
 import * as search from './search.js';
+import * as openClose from './open-close-events.js'
 
 
 var drawArches = () => {
@@ -29,16 +30,13 @@ var drawArches = () => {
 };
 
 
-function setup(){
+$( document ).ready(function() {
+  // openClose.splashScreen();
 
-  // real data
   var getData = search.airtableSearch(observations);
   getData.then((d) => {
     entities.entities(observations, basket);
     drawArches();
   });
 
-
-}
-
-setup();
+});
