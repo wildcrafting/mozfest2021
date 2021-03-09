@@ -33,3 +33,7 @@ html {
   height: 100%;
   margin: auto;
 }
+
+#view-cards:first-child {
+  padding: 0 5px;
+}

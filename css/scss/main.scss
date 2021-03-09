@@ -3,7 +3,7 @@ html {
   text-transform: lowercase;
 }
 
-#card {  
+#card {
   #photo-container {
     max-height: 30vh;
     overflow: hidden;
@@ -34,4 +34,8 @@ html {
 #wordmark {
   height: 100%;
   margin: auto;
+}
+
+#view-cards:first-child {
+  padding: 0 5px;
 }

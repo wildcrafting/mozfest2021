@@ -58,12 +58,12 @@ var entities = (observations, basket) => {
       },
 
       init: function () {
-        const circleRadius = .005;
+        const circleRadius = .00000005;
         const group = new THREE.Group();
         const extrudeSettings = { amount: radius+.5, bevelEnabled: false };
         const rotationAmount = ((Math.PI * 2) / this.data.numArch);
 
-        for(var i = 0; i < this.data.numArch; i++){
+        for(var i = 0; i < 3; i++){
           var circleShape = new THREE.Shape()
           .moveTo( 0, circleRadius )
           .quadraticCurveTo( circleRadius, circleRadius, circleRadius, 0 )
@@ -77,13 +77,13 @@ var entities = (observations, basket) => {
           mesh.rotation.y = rotationAmount * i;
           mesh.position.set(0, .01, 0);
 
-          if(i > 0){
-            var geometry = new THREE.TorusGeometry( ((radius/this.data.numArch) * i) + .5, 0.005, 8, 100);
-            var torus = new THREE.Mesh( geometry, defaultMaterial );
-            torus.rotation.x = Math.PI / 2;
-            torus.position.set(0, .01, 0);
-            group.add( torus );
-          }
+          // if(i > 0){
+          //   var geometry = new THREE.TorusGeometry( ((radius/this.data.numArch) * i) + .5, 0.005, 8, 100);
+          //   var torus = new THREE.Mesh( geometry, defaultMaterial );
+          //   torus.rotation.x = Math.PI / 2;
+          //   torus.position.set(0, .01, 0);
+          //   group.add( torus );
+          // }
           group.add( mesh );
 
         }

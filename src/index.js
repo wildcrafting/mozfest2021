@@ -1,5 +1,6 @@
 var observations = [];
 var basket = [];
+var biomes = {};
 
 import * as entities from './entities.js';
 import * as search from './search.js';
@@ -31,7 +32,7 @@ var drawArches = () => {
 
 
 $( document ).ready(function() {
-  // openClose.splashScreen();
+  openClose.splashScreen();
 
   var getData = search.airtableSearch(observations);
   getData.then((d) => {
