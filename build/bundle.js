@@ -120,13 +120,15 @@ var entities = function entities(observations, basket) {
     },
     init: function init() {
       var el = this.el;
-      var self = this; // Create geometry.
+      var self = this;
+      var loader = new THREE.TextureLoader(); // Create geometry.
 
       this.geometry = new THREE.PlaneGeometry(.1, .2, 32);
       this.material = new THREE.MeshStandardMaterial({
         color: 0xffffff,
         side: THREE.DoubleSide
-      }); // Create mesh.
+      }); // this.material = new THREE.MeshBasicMaterial({ map: loader.load('https://threejsfundamentals.org/threejs/resources/images/wall.jpg'), });
+      // Create mesh.
 
       this.mesh = new THREE.Mesh(this.geometry);
       el.setObject3D('mesh', this.mesh);
@@ -171,7 +173,7 @@ var entities = function entities(observations, basket) {
       }
     },
     init: function init() {
-      var circleRadius = .00000005;
+      var circleRadius = .005;
       var group = new THREE.Group();
       var extrudeSettings = {
         amount: radius + .5,
@@ -179,18 +181,20 @@ var entities = function entities(observations, basket) {
       };
       var rotationAmount = Math.PI * 2 / this.data.numArch;
 
-      for (var i = 0; i < 3; i++) {
+      for (var i = 0; i < this.data.numArch; i++) {
         var circleShape = new THREE.Shape().moveTo(0, circleRadius).quadraticCurveTo(circleRadius, circleRadius, circleRadius, 0).quadraticCurveTo(circleRadius, -circleRadius, 0, -circleRadius).quadraticCurveTo(-circleRadius, -circleRadius, -circleRadius, 0).quadraticCurveTo(-circleRadius, circleRadius, 0, circleRadius);
         var geometry = new THREE.ExtrudeGeometry(circleShape, extrudeSettings);
         var mesh = new THREE.Mesh(geometry, defaultMaterial);
         mesh.rotation.y = rotationAmount * i;
-        mesh.position.set(0, .01, 0); // if(i > 0){
-        //   var geometry = new THREE.TorusGeometry( ((radius/this.data.numArch) * i) + .5, 0.005, 8, 100);
-        //   var torus = new THREE.Mesh( geometry, defaultMaterial );
-        //   torus.rotation.x = Math.PI / 2;
-        //   torus.position.set(0, .01, 0);
-        //   group.add( torus );
-        // }
+        mesh.position.set(0, .01, 0);
+
+        if (i > 0) {
+          var geometry = new THREE.TorusGeometry(radius / this.data.numArch * i + .5, 0.005, 8, 100);
+          var torus = new THREE.Mesh(geometry, defaultMaterial);
+          torus.rotation.x = Math.PI / 2;
+          torus.position.set(0, .01, 0);
+          group.add(torus);
+        }
 
         group.add(mesh);
       }
@@ -288,6 +292,10 @@ var entities = function entities(observations, basket) {
           index: this.data.cards[i]
         };
         cardEl.setAttribute('card', sch);
+        cardEl.setAttribute('material', 'color', '#f2ceae'); // The color is blue.
+        // cardEl.setAttribute('material', 'src', '/assets/washi.jpg');  // The color is blue.
+        // cardEl.setAttribute({color: '#ACC', intensity: 0.75});
+
         this.el.appendChild(cardEl);
       }
 
@@ -317,7 +325,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-var inat_data = ["species_guess", "description", "photo", "participant_name"];
+var inat_data = ["preferred_common_name", "description", "photo", "participant_name", "biome", "econame"];
 var cardHTML = '<div id="card-num" class="text-md m-3 font-light border-2 border-gray-400 bg-yellow-50 text-gray-700 w-48 m-0.5 max-h-96 flex flex-col justify-items-center items-center"><div id="photo-container"><img id="photo"></div><i class="fal fa-seedling mt-2 text-xl text-gray-700"></i><div class="divider my-2 w-12 border-b border-gray-700"></div><div class="p-3 text-md font-light text-gray-700"><span id="participant_name" class="font-semibold"></span> told us of <span id="species_guess" class="font-semibold"></span>, saying: <span id="description"></span></div><div class="divider my-8 w-12 border-b border-gray-700"></div></div>';
 var artifact; // Card animations
 
@@ -331,7 +339,6 @@ exports.hideObservationCard = hideObservationCard;
 
 var displayObservationCard = function displayObservationCard(index, observations, basket) {
   basket.push(observations[index]);
-  $("#view-cards span").html(basket.length);
   populateCard("#card", observations[index]); // new card
 
   var num = "card-num" + basket.length;
@@ -355,9 +362,9 @@ var populateCard = function populateCard(parent, observation) {
 
     if (inat_data[j] == "photo") {
       if (observation.hasOwnProperty('observation_photo_url')) {
-        $(tag).attr('src', observation["observation_photo_url"]);
+        $(tag).attr('src', observation["observation_photo_url"]); // $("#photo-container").style.backgroundImage="url(" + observation["observation_photo_url"] + ")";
       } else {
-        $(tag).attr('src', observation["default_photo"]);
+        $(tag).attr('src', observation["default_photo"]); // $("#photo-container").style.backgroundImage="url(" + observation["default_photo"] + ")";
       }
     } else {
       $(tag).html(observation[inat_data[j]]);
@@ -416,7 +423,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var observations = [];
 var basket = [];
-var biomes = {};
 
 var drawArches = function drawArches() {
   var sceneEl = document.querySelector('a-scene');
@@ -464,13 +470,20 @@ Object.defineProperty(exports, "__esModule", {
 exports.splashScreen = void 0;
 
 var splashScreen = function splashScreen() {
-  // //on page load, start splash screen
-  // $("#wordmark").delay(3000).fadeIn(1000).delay(3000).fadeOut(1000);
-  //after 5s, fade out title, fade in instructions, load gmaps in bg
-  // $("#intro-1").css("display", "flex").hide().delay(8500).fadeIn(1000);
+  //on page load, start splash screen
+  $("#intro-1, #intro-2").css("display", "flex").hide();
+  $("#intro-1").delay(8500).fadeIn(1000);
+  $("#wordmark").delay(3000).fadeIn(1000).delay(3000).fadeOut(1000); //after 5s, fade out title, fade in instructions, load gmaps in bg
   //after clicking button, fade element
-  // $("#next").click(function() {
-  $(".loading-bg").fadeOut(1000); // });
+
+  $("#next-1").click(function () {
+    $("#intro-1").fadeOut(1000);
+    $("#intro-2").delay(1500).fadeIn(1000);
+  }); //after clicking button, fade element
+
+  $("#next-2").click(function () {
+    $(".loading-bg").fadeOut(1000);
+  });
 };
 
 exports.splashScreen = splashScreen;

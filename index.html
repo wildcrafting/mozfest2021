@@ -50,26 +50,33 @@
 
     <div class="loading-bg absolute h-full w-full z-20 flex flex-col justify-center">
       <img id="wordmark" class="hidden" src="assets/wildcrafting.svg">
-      <div id="intro-1" class="p-12 font-extralight text-white text-3xl text-center w-full h-96 flex flex-col justify-between justify-items-center items-center">
+      <div id="intro-1" class="hidden p-12 font-extralight text-white text-3xl text-center w-full h-96 flex flex-col justify-between justify-items-center items-center">
         <div>welcome to the atrium</div>
         <div> see the diversity of plant life that other MozFesters have added.</div>
-        <button id="next" class="fal fa-dice-d10 focus:outline-none text-white text-2xl leading-6 p-3 flex items-center rounded-full border border-white" style=""></button>
+        <button id="next-1" class="fal fa-dice-d10 focus:outline-none text-white text-2xl leading-6 p-3 flex items-center rounded-full border border-white" style=""></button>
+      </div>
+      <div id="intro-2" class="hidden p-12 font-extralight text-white text-3xl text-center w-full h-96 flex flex-col justify-between justify-items-center items-center">
+        <div>step in and explore</div>
+        <div> read as many stories as you want, by picking the cards off the vines.</div>
+        <button id="next-2" class="fal fa-dice-d10 focus:outline-none text-white text-2xl leading-6 p-3 flex items-center rounded-full border border-white" style=""></button>
       </div>
     </div>
 
-    <div id="overlay-container" class="w-full h-screen transition ease-out visible" style="display: flex; position: absolute; top: 100vh; left: 0; z-index: 2">
-      <div id="overlay" class="p-8 text-center w-full max-w-xl m-6 flex flex-col justify-between justify-items-center items-center bg-yellow-50">
-        <div id="card" class="flex flex-col justify-items-center items-center ">
-          <div id="photo-container">
-            <img id="photo">
+    <div id="overlay-container" class="w-full h-screen transition ease-out visible flex" style="display: flex; position: absolute; top: 100vh; left: 0; z-index: 2">
+      <div id="overlay" class="m-6 p-6 text-center max-w-xl flex flex-col justify-between justify-items-center items-center bg-yellow-50">
+        <div id="card" class="flex flex-col justify-items-center items-center overflow-y-auto">
+          <i class="fal fa-seedling mb-6 text-xl text-gray-700"></i>  
+            <div id="photo-container" style="overflow: clip;">
+            <img id="photo" style="top:50%;">
           </div>
-          <i class="fal fa-seedling mt-8 text-xl text-gray-700"></i>
-          <div class="divider my-8 w-12 border-b border-gray-700"></div>
-          <div class="text-md font-light text-gray-700"><span id="participant_name" class="font-semibold"></span> told us of <span id="species_guess" class="font-semibold"></span>, saying: <span id="description"></span></div>
-          <div class="divider my-8 w-12 border-b border-gray-700"></div>
-        </div>
-        <button id="close" class="fal fa-dice-d10 focus:outline-none text-gray-700 text-2xl p-3 hover:bg-yellow-100 flex items-center rounded-full border border-gray-700" style=""></button>
-      </div>
+          <div class="flex flex-col items-center">
+            <!-- <div class="divider my-8 w-12 border-b border-gray-700"></div> -->
+            <div class="mt-6 text-md font-light text-gray-700"><span id="participant_name" class="font-semibold"></span> told us of <span id="preferred_common_name" class="font-semibold"></span>, saying: <br><br><span id="description"></span></div>
+            <div class="divider my-8 w-12 border-b border-gray-700"></div>
+            <div class="text-md font-light text-gray-700">from the <br><span class="font-semibold" id="econame"></span><br> in the <span class="font-semibold" id="biome"></span> biome</div>  
+          </div>
+          </div>
+          <button id="close" class="fal fa-dice-d10 focus:outline-none text-gray-700 text-2xl p-3 hover:bg-yellow-100 flex items-center rounded-full border border-gray-700 mt-6" style=""></button>
     </div>
 
     <div id="overlay-container-all-cards" class="bg-yellow-50 w-full h-screen transition ease-out visible" style="display: flex; position: absolute; top: 100vh; left: 0; z-index: 2">
