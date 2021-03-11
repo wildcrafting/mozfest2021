@@ -62,8 +62,9 @@ var hideAllCards = () => {
   $("#overlay-container-all-cards").animate({top:"100vh"});
 };
 var showAllCards = (basket) => {
-  artifact.show();
+  console.log("showAllCards")
   $("#overlay-container-all-cards").animate({top:0});
+  artifact.show();
 }
 
 var init = (obs, basket, biomes) => {
@@ -73,7 +74,9 @@ var init = (obs, basket, biomes) => {
   $('#close,#overlay-container').on("click", () => { hideObservationCard(); hideAllCards(); })
   $('#overlay').on("click", (e) => { e.preventDefault(); return false; })
 
-  $("#view-cards").on("click", () => { showAllCards(basket); });
+  $("#view-cards").on("click", (e) => {
+    showAllCards(basket);
+  });
 
   $('#export').on("click", () => {
     artifact.exportCards();
