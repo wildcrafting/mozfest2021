@@ -1,6 +1,6 @@
 import * as Artifact from './cards-artifact.js';
 
-var inat_data = ["species_guess", "description", "photo", "participant_name"];
+var inat_data = ["preferred_common_name", "description", "photo", "participant_name", "biome", "econame"];
 var cardHTML = '<div id="card-num" class="text-md m-3 font-light border-2 border-gray-400 bg-yellow-50 text-gray-700 w-48 m-0.5 max-h-96 flex flex-col justify-items-center items-center"><div id="photo-container"><img id="photo"></div><i class="fal fa-seedling mt-2 text-xl text-gray-700"></i><div class="divider my-2 w-12 border-b border-gray-700"></div><div class="p-3 text-md font-light text-gray-700"><span id="participant_name" class="font-semibold"></span> told us of <span id="species_guess" class="font-semibold"></span>, saying: <span id="description"></span></div><div class="divider my-8 w-12 border-b border-gray-700"></div></div>'
 var artifact;
 
@@ -31,8 +31,10 @@ var populateCard = (parent, observation) => {
     if(inat_data[j] == "photo"){
        if (observation.hasOwnProperty('observation_photo_url')) {
         $(tag).attr('src', observation["observation_photo_url"]);
+        // $("#photo-container").style.backgroundImage="url(" + observation["observation_photo_url"] + ")";
        } else {
         $(tag).attr('src', observation["default_photo"]);
+        // $("#photo-container").style.backgroundImage="url(" + observation["default_photo"] + ")";
       }
     } else {
       $(tag).html(observation[inat_data[j]]);

@@ -1,5 +1,6 @@
 import * as entityEvent from './entity-events.js';
 import p5 from 'p5';
+
 var P5 = new p5();
 
 var defaultMaterial = new THREE.MeshStandardMaterial({color: 0x331a00});
@@ -17,9 +18,11 @@ var entities = (observations, basket) => {
     init: function () {
       var el = this.el;
       var self = this;
+      const loader = new THREE.TextureLoader();
       // Create geometry.
       this.geometry = new THREE.PlaneGeometry(.1, .2, 32)
       this.material = new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide});
+      // this.material = new THREE.MeshBasicMaterial({ map: loader.load('https://threejsfundamentals.org/threejs/resources/images/wall.jpg'), });
 
       // Create mesh.
       this.mesh = new THREE.Mesh(this.geometry);
@@ -158,6 +161,9 @@ var entities = (observations, basket) => {
           var sch = {position: randomPoint, rotation: this.data.rotation, index: this.data.cards[i]};
 
           cardEl.setAttribute('card', sch);
+          cardEl.setAttribute('material', 'color', '#f2ceae');  // The color is blue.
+          // cardEl.setAttribute('material', 'src', '/assets/washi.jpg');  // The color is blue.
+          // cardEl.setAttribute({color: '#ACC', intensity: 0.75});
           this.el.appendChild(cardEl);
         }
 

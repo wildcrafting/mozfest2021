@@ -5,11 +5,11 @@ html {
 
 #card {  
   #photo-container {
-    max-height: 30vh;
-    overflow: hidden;
+    max-height: 30%;
+    // overflow: hidden;
     #photo {
       position: relative;
-      top: 50%;
+      // top: 50%;
       transform: translate(0,-50%);
     }
   }

@@ -31,7 +31,7 @@ var drawArches = () => {
 
 
 $( document ).ready(function() {
-  // openClose.splashScreen();
+  openClose.splashScreen();
 
   var getData = search.airtableSearch(observations);
   getData.then((d) => {
