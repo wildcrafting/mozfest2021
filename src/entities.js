@@ -5,9 +5,12 @@ var P5 = new p5();
 
 var defaultMaterial = new THREE.MeshStandardMaterial({color: 0x331a00});
 var radius = 3;
+var observations;
+var basket;
 
-var entities = (observations, basket) => {
-  entityEvent.init(basket);
+var entities = (observations, basket, biomes) => {
+  entityEvent.init(observations, basket, biomes);
+
 
   AFRAME.registerComponent('card', {
     schema: {
@@ -21,24 +24,27 @@ var entities = (observations, basket) => {
       const loader = new THREE.TextureLoader();
       // Create geometry.
       this.geometry = new THREE.PlaneGeometry(.1, .2, 32)
-      this.material = new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide});
-      // this.material = new THREE.MeshBasicMaterial({ map: loader.load('https://threejsfundamentals.org/threejs/resources/images/wall.jpg'), });
+      this.material = new THREE.MeshStandardMaterial({color: 0xFFFBEB, side: THREE.DoubleSide});
+      var mesh = new THREE.Mesh(this.geometry);
+      // mesh.position = new THREE.Vector3(self.data.position.x +.005, self.data.position.y - .25, self.data.position.z);
+      el.object3D.position.set(self.data.position.x +.005, self.data.position.y - .25, self.data.position.z)
+      // el.setAttribute('position', {x: self.data.position.x +.005, y: self.data.position.y - .25, z: self.data.position.z})
+      el.setObject3D('mesh', mesh);
 
-      // Create mesh.
-      this.mesh = new THREE.Mesh(this.geometry);
-      el.setObject3D('mesh', this.mesh);
-      el.object3D.position.set(this.data.position.x +.005, this.data.position.y - .25, this.data.position.z);
 
-      // iNaturalist doesn't allow crossorigin = anonymous/CORS, so we can't use them as a texture
-      // https://stackoverflow.com/questions/34826748/issue-with-crossorigin-anonymous-failing-to-load-images
-      // https://hacks.mozilla.org/2011/11/using-cors-to-load-webgl-textures-from-cross-domain-images/
-      // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#what_requests_use_cors
-      // if(observations[self.data.index].photos){
-        //   var schema = {src: observations[self.data.index].photos[0].url, softmode: true}
-        //   this.el.crossOrigin = 'anonymous';
-        //   this.el.setAttribute('asset-on-demand', schema)
-        // }
+      // // Create mesh.
+      // el.setObject3D('mesh', this.mesh);
 
+      // // iNaturalist doesn't allow crossorigin = anonymous/CORS, so we can't use them as a texture
+      // // https://stackoverflow.com/questions/34826748/issue-with-crossorigin-anonymous-failing-to-load-images
+      // // https://hacks.mozilla.org/2011/11/using-cors-to-load-webgl-textures-from-cross-domain-images/
+      // // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#what_requests_use_cors
+      // // if(observations[self.data.index].photos){
+      //   //   var schema = {src: observations[self.data.index].photos[0].url, softmode: true}
+      //   //   this.el.crossOrigin = 'anonymous';
+      //   //   this.el.setAttribute('asset-on-demand', schema)
+      //   // }
+      //
         el.object3D.lookAt(0, 2, 0)
         // this.el.object3D.rotation.y ;
         el.addEventListener('mouseenter', function () {
@@ -50,8 +56,8 @@ var entities = (observations, basket) => {
         this.el.addEventListener('click', function () {
           el.setAttribute('animation', 'property: position; to: 0 0 0');
           // window.setTimeout(function(){
-            entityEvent.displayObservationCard(self.data.index, observations, basket);
-          // },700);
+            entityEvent.displayObservationCard(self.data.index, observations, basket, biomes);
+            // },700);
         });
       }
     });
@@ -81,22 +87,22 @@ var entities = (observations, basket) => {
           mesh.position.set(0, .01, 0);
 
           // if(i > 0){
-          //   var geometry = new THREE.TorusGeometry( ((radius/this.data.numArch) * i) + .5, 0.005, 8, 100);
-          //   var torus = new THREE.Mesh( geometry, defaultMaterial );
-          //   torus.rotation.x = Math.PI / 2;
-          //   torus.position.set(0, .01, 0);
-          //   group.add( torus );
-          // }
-          group.add( mesh );
+            //   var geometry = new THREE.TorusGeometry( ((radius/this.data.numArch) * i) + .5, 0.005, 8, 100);
+            //   var torus = new THREE.Mesh( geometry, defaultMaterial );
+            //   torus.rotation.x = Math.PI / 2;
+            //   torus.position.set(0, .01, 0);
+            //   group.add( torus );
+            // }
+            group.add( mesh );
 
+          }
+          var geometry = new THREE.TorusGeometry( .6, 0.005, 8, this.data.numArch);
+          var torus = new THREE.Mesh( geometry, defaultMaterial );
+          torus.rotation.x = Math.PI / 2;
+          torus.position.set(0, 2.5, 0);
+          // group.add( torus );
+          this.el.setObject3D('mesh', group);
         }
-        var geometry = new THREE.TorusGeometry( .6, 0.005, 8, this.data.numArch);
-        var torus = new THREE.Mesh( geometry, defaultMaterial );
-        torus.rotation.x = Math.PI / 2;
-        torus.position.set(0, 2.5, 0);
-        // group.add( torus );
-        this.el.setObject3D('mesh', group);
-      }
     });
     AFRAME.registerComponent('scale-on-mouseenter', {
       schema: {
@@ -156,9 +162,10 @@ var entities = (observations, basket) => {
         }
         for(var i = 0; i < this.data.cards.length; i++){
           // var randomPoint = points[Math.floor(Math.random() * 70) + 10];
+
           var randomPoint = rootPoints[i%6][Math.floor((i/this.data.cards.length)*100) + 20];
           var cardEl = document.createElement('a-entity');
-          var sch = {position: randomPoint, rotation: this.data.rotation, index: this.data.cards[i]};
+          var sch = {position: randomPoint, index: this.data.cards[i]};
 
           cardEl.setAttribute('card', sch);
           cardEl.setAttribute('material', 'color', '#f2ceae');  // The color is blue.
@@ -172,8 +179,6 @@ var entities = (observations, basket) => {
 
       },
     });
-
-
 
 }
 
