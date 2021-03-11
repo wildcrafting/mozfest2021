@@ -173,7 +173,7 @@ var entities = function entities(observations, basket) {
       }
     },
     init: function init() {
-      var circleRadius = .005;
+      var circleRadius = .00000005;
       var group = new THREE.Group();
       var extrudeSettings = {
         amount: radius + .5,
@@ -181,20 +181,18 @@ var entities = function entities(observations, basket) {
       };
       var rotationAmount = Math.PI * 2 / this.data.numArch;
 
-      for (var i = 0; i < this.data.numArch; i++) {
+      for (var i = 0; i < 3; i++) {
         var circleShape = new THREE.Shape().moveTo(0, circleRadius).quadraticCurveTo(circleRadius, circleRadius, circleRadius, 0).quadraticCurveTo(circleRadius, -circleRadius, 0, -circleRadius).quadraticCurveTo(-circleRadius, -circleRadius, -circleRadius, 0).quadraticCurveTo(-circleRadius, circleRadius, 0, circleRadius);
         var geometry = new THREE.ExtrudeGeometry(circleShape, extrudeSettings);
         var mesh = new THREE.Mesh(geometry, defaultMaterial);
         mesh.rotation.y = rotationAmount * i;
-        mesh.position.set(0, .01, 0);
-
-        if (i > 0) {
-          var geometry = new THREE.TorusGeometry(radius / this.data.numArch * i + .5, 0.005, 8, 100);
-          var torus = new THREE.Mesh(geometry, defaultMaterial);
-          torus.rotation.x = Math.PI / 2;
-          torus.position.set(0, .01, 0);
-          group.add(torus);
-        }
+        mesh.position.set(0, .01, 0); // if(i > 0){
+        //   var geometry = new THREE.TorusGeometry( ((radius/this.data.numArch) * i) + .5, 0.005, 8, 100);
+        //   var torus = new THREE.Mesh( geometry, defaultMaterial );
+        //   torus.rotation.x = Math.PI / 2;
+        //   torus.position.set(0, .01, 0);
+        //   group.add( torus );
+        // }
 
         group.add(mesh);
       }
@@ -339,7 +337,9 @@ exports.hideObservationCard = hideObservationCard;
 
 var displayObservationCard = function displayObservationCard(index, observations, basket) {
   basket.push(observations[index]);
-  populateCard("#card", observations[index]); // new card
+  $("#counter").html(basket.length).addClass("ml-2");
+  populateCard("#card", observations[index]); // $("#counter").addClass("ml-2");
+  // new card
 
   var num = "card-num" + basket.length;
   var newCard = cardHTML.replace("card-num", num);
@@ -423,6 +423,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var observations = [];
 var basket = [];
+var biomes = {};
 
 var drawArches = function drawArches() {
   var sceneEl = document.querySelector('a-scene');

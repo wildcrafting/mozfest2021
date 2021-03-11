@@ -9,7 +9,7 @@ var artifact;
 var hideObservationCard = () => {$("#overlay-container").animate({top:"100vh"});}
 var displayObservationCard = (index, observations, basket) => {
   basket.push(observations[index]);
-  $("#view-cards span").html(basket.length)
+  $("#counter").html(basket.length).addClass("ml-2")
   populateCard("#card", observations[index]);
 
   // new card
