@@ -4,10 +4,12 @@ html {
 }
 
 #card #photo-container {
-  max-height: 30%;
+  max-height: 30vh;
+  overflow: hidden;
 }
 #card #photo-container #photo {
   position: relative;
+  top: 50%;
   transform: translate(0, -50%);
 }
 

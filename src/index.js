@@ -8,7 +8,7 @@ var biomes = {
 import * as entities from './entities.js';
 import * as search from './search.js';
 import * as openClose from './open-close-events.js'
-
+// import * as map from './google-maps.js';
 
 var drawArches = () => {
   var sceneEl = document.querySelector('a-scene');
@@ -35,6 +35,8 @@ var drawArches = () => {
 
 
 $( document ).ready(function() {
+  listener({lat: 123, lon: 123})
+
   entities.entities(observations, basket, biomes);
   openClose.splashScreen();
 

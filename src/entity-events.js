@@ -19,7 +19,7 @@ var displayObservationCard = (index, observations, basket, biomes) => {
   if(biome){
     biomes[biome] = biomes[biome]? biomes[biome] + 1 : 1;
   }
-  console.log(observations[index])
+  listener(observations[index]["latLng"]) // ulu use these coordinates
 
   // new card
   var num = "card-num" + basket.length;
