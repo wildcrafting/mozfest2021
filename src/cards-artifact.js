@@ -54,7 +54,7 @@ function Artifact(basket, biomes){
           p.noStroke();
           p.rectMode(CENTER);
           p.fill(255, 251, 235)
-          p.rect(p.width/2, p.height/2, 180, 50)
+          p.rect(p.width/2, p.height/2, 120, 50)
 
 
           p.textAlign(CENTER, CENTER);
