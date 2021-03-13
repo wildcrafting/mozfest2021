@@ -33,7 +33,7 @@ var drawArches = () => {
 
 
 $( document ).ready(function() {
-  listener({lat: 123, lon: 123})
+  // listener({lat: 123, lng: 123})
 
   entities.entities(observations, basket, biomes);
   openClose.splashScreen();
@@ -44,3 +44,5 @@ $( document ).ready(function() {
   });
 
 });
+
+

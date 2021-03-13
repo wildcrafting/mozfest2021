@@ -2,21 +2,20 @@ html {
   font-family: 'Poppins', sans-serif;
   text-transform: lowercase; }
 
-#photo-container {
-  max-height: 30vh;
-  overflow: hidden; }
-
-#photo {
-  position: relative;
-  top: 50%;
-  transform: translate(0, -50%); }
+#card #photo-container {
+  max-height: 45%; }
+  #card #photo-container #photo {
+    position: relative;
+    transform: translate(0, -50%); }
 
 #pano {
-  /* float: left; */
+  float: left;
   height: 100%;
   width: 100%;
   z-index: -1000000;
-  filter: blur(0.5rem); }
+  filter: blur(0.5rem);
+  position: absolute !important;
+  top: 0; }
 
 .gm-style-cc {
   display: none; }
@@ -27,3 +26,6 @@ html {
 #wordmark {
   height: 100%;
   margin: auto; }
+
+#view-cards:first-child {
+  padding: 0 5px; }

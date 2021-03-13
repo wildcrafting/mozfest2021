@@ -21,6 +21,7 @@ var displayObservationCard = (index, observations, basket, biomes) => {
   }
   listener(observations[index]["latLng"]) // ulu use these coordinates
 
+
   // new card
   var num = "card-num" + basket.length;
   var newCard = cardHTML.replace("card-num", num);
@@ -39,12 +40,12 @@ var populateCard = (parent, observation, index) => {
   for(var j = 0; j < inat_data.length; j++){
     var tag = parent + " #" + inat_data[j];
     $(tag).html('');
-
     if(inat_data[j] == "photo"){
-      var tag = index? "#photo" + (index) : "#photo";
-      console.log(tag)
-       if (observation.hasOwnProperty('observation_photo_url')) {
-        $(tag).attr('src', observation["observation_photo_url"]);
+      var tag = index ? "#photo" + (index) : "#photo";
+      console.log(tag);
+
+       if (observation.hasOwnProperty('observation_photo_attachment')) {
+        $(tag).attr('src', observation["observation_photo_attachment"][0]["url"]);
         // $("#photo-container").style.backgroundImage="url(" + observation["observation_photo_url"] + ")";
        } else {
         $(tag).attr('src', observation["default_photo"]);

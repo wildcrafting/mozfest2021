@@ -5,7 +5,7 @@ html {
 
 #card {
   #photo-container {
-    max-height: 30%;
+    max-height: 45%;
     // overflow: hidden;
     #photo {
       position: relative;
@@ -17,11 +17,13 @@ html {
 
 
 #pano {
-  /* float: left; */
+  float: left; 
   height: 100%;
   width: 100%;
   z-index: -1000000;
   filter: blur(.5rem);
+  position: absolute !important;
+  top: 0;
 }
 .gm-style-cc {
   display: none;
