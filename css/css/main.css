@@ -4,21 +4,21 @@ html {
 }
 
 #card #photo-container {
-  max-height: 30vh;
-  overflow: hidden;
+  max-height: 30%;
 }
 #card #photo-container #photo {
   position: relative;
-  top: 50%;
   transform: translate(0, -50%);
 }
 
 #pano {
-  /* float: left; */
+  float: left;
   height: 100%;
   width: 100%;
   z-index: -1000000;
   filter: blur(0.5rem);
+  position: absolute !important;
+  top: 0;
 }
 
 .gm-style-cc {
