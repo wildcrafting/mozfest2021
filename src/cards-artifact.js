@@ -10,7 +10,7 @@ function Artifact(basket, biomes){
   var display = true;
 
   var artifactSketch =  async function (p){
-    var radialIncrement = (Math.PI * 2) / 8;
+    var radialIncrement = (Math.PI * 2) / 7;
     var radius;
     var currentNumBiomes = 0;
     var tree;
@@ -25,7 +25,7 @@ function Artifact(basket, biomes){
 
       tree = new Tree.Tree(p);
       canvasID = canvas.id('artifactCanvas')
-      radius = (p.width - 200)/2;
+      radius = (p.width - 50)/2;
     }
 
     p.draw = function() {
@@ -64,7 +64,7 @@ function Artifact(basket, biomes){
             p.rotate(i - (Math.PI * 1.5));
             p.text(biome, 0, 0);
           p.pop();
-          var displayText = "You've collected cards \nfrom " + Object.keys(biomes).length + " realm(s)."
+          var displayText = "You've collected " + basket.length + " cards \nfrom " + Object.keys(biomes).length + " realm(s)."
           p.text(displayText, p.width/2, p.height/2);
 
           i += radialIncrement;
@@ -93,40 +93,67 @@ function Artifact(basket, biomes){
   }
 
   this.exportCards = async () => {
-    const doc = new PDFDocument;
+
+    var outerElem = document.getElementById('overlay-container-all-cards')
+    var width = outerElem.clientWidth;
+    var height = outerElem.clientHeight;
+    var contentWidth = width < 400? width - 20 : 400;
+    var textX = (width - contentWidth) / 2;
+    var y = (height - contentWidth) / 2;
+    var margin = 100;
+    const doc = new PDFDocument({
+      size: [width,height],
+      margins : { // by default, all are 72
+          top: margin,
+         bottom:margin,
+          left: margin,
+        right: margin
+      }
+    });
     var stream = doc.pipe(blobStream());
     var forPDF = document.getElementById('forPDF');
     var ctx = forPDF.getContext('2d');
 
-    var font = "../assets/Poppins-Regular.ttf"
     doc.font("Helvetica");
-    // doc.font(font);
-
-    doc.rect(0, 0, 612, 792).fill("#FFFBEB");
+    doc.rect(0, 0, width, height).fill("#FFFBEB");
     doc.moveTo(0, 0);
     doc.fillColor("#000000")
-
     // cover
-    doc.fontSize(42).text('wildcrafting', {width: 612, align: 'left', x: 0})
+    doc.fontSize(42).text('wildcrafting', {width: contentWidth, align: 'left'});
     doc.moveDown()
-    doc.fontSize(30).text("The cards you collected from the exhibit that underpin MozFest 2021.")
+    doc.fontSize(30).text("The cards you collected from the exhibit that underpin MozFest 2021.", {width: contentWidth, align: 'left'});
     doc.moveDown()
-    doc.fontSize(12).text(" A project by Ulu Mills, Devika Singh, Cathryn Ploehn, and Jessica Liu.")
+    doc.fontSize(12).text(" A project by Ulu Mills, Devika Singh, Cathryn Ploehn, and Jessica Liu.", {width: contentWidth, align: 'left'});
     doc.moveDown();
     doc.moveDown();
     var canvas = document.getElementById("artifactCanvas");
     var image = canvas.toDataURL("image/png");
-    var x = (612 - 400) / 2;
-    var y = (792 - 400) / 2;
-    doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [400, 400], align: 'center', valign: 'center', x: x}); // this will decode your base64 to a new buffer
+    doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [contentWidth, contentWidth], align: 'center', valign: 'center', x: margin}); // this will decode your base64 to a new buffer
 
     for(var i = 0; i < basket.length; i++){
-      if(i % 4 == 0) {
-        doc.addPage();
-        doc.rect(0, 0, 612, 792).fill("#FFFBEB");
-        doc.moveTo(0, 0);
-        doc.fillColor("#000000")
+
+      doc.addPage();
+      doc.rect(0, 0, width, height).fill("#FFFBEB");
+      doc.moveTo(0, 0);
+      doc.fillColor("#000000")
+
+      // Add text
+      var newString = basket[i]["participant_name"] + " told us of " + basket[i]["preferred_common_name"];
+      if(basket[i]["description"]) {
+        newString += ", saying: " + basket[i]["description"];
       }
+      newString += "\n from the " + basket[i]["econame"] + " in the " + basket[i]["biome"] + ".";
+
+      // var stringHeight = doc.heightOfString(runningString + newString, {width: contentWidth});
+
+      doc.fontSize(18).text(`${newString}`, {
+        width: contentWidth,
+        align: 'center',
+        x: 0
+      });
+      doc.moveDown();
+
+
 
       // Once again we can't use images from iNat because of their CORS policy
       // var tag = "photo" + (i + 1);
@@ -139,18 +166,8 @@ function Artifact(basket, biomes){
       // doc.image(new Buffer(uri.replace('data:image/png;base64,',''), 'base64'), {fit: [100, 100], align: 'center', valign: 'center'});
       // doc.moveDown();
 
-      // Add text
-      var text = basket[i]["participant_name"] + " told us of " + basket[i]["preferred_common_name"];
-      if(basket[i]["description"]) {
-        text += ", saying: " + basket[i]["description"];
-      }
-      var textX = (612 - 400 )/ 2;
-      doc.text(`${text}`, {
-        width: 400,
-        align: 'center',
-        x: textX
-      });
-      doc.moveDown();
+
+
     }
 
     // finalize the PDF and end the stream
