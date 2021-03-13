@@ -30,7 +30,6 @@ var entities = (observations, basket, biomes) => {
       el.object3D.position.set(self.data.position.x +.005, self.data.position.y - .25, self.data.position.z)
       // el.setAttribute('position', {x: self.data.position.x +.005, y: self.data.position.y - .25, z: self.data.position.z})
       el.setObject3D('mesh', mesh);
-      el.setAttribute('material', "src: #card-texture")
 
 
       // // Create mesh.
