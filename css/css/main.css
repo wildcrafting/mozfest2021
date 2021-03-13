@@ -4,7 +4,7 @@ html {
 }
 
 #card #photo-container {
-  max-height: 30%;
+  max-height: 45%;
 }
 #card #photo-container #photo {
   position: relative;

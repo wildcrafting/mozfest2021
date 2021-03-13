@@ -27,9 +27,12 @@
     type="text/javascript"></script> -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   <script>
-    
-    function initMap(loc) {
-      var localsky = loc ? loc : { lat: 20.891111, lng: -156.504722 };
+
+
+
+    function initMap(coord) {
+      var localsky = { lat: 20.891111, lng: -156.504722 };
+      // var newsky =  new google.maps.LatLng(coord);
       // const localsky = loc;
 
       const panorama = new google.maps.StreetViewPanorama(
@@ -40,27 +43,33 @@
             heading: 34,
             pitch: 10,
           },
-          addressControlOptions: {
-            position: google.maps.ControlPosition.BOTTOM_CENTER,
-          },
-          linksControl: false,
-          panControl: false,
-          enableCloseButton: false,
-          zoomControl: false,
-          addressControl: false,
-          motionTrackingControl: true,
-          fullscreenControl: false,
-          showRoadLabels: false,
-
+          disableDefaultUI: true,
         }
       );
-
-    }
-
-    function listener(coord) {
-      console.log(coord)
     }
       map.setStreetView(panorama);
+
+
+
+  function listener(coord) {
+      console.log(coord);
+      console.log(new google.maps.LatLng(coord));
+      // const [lat, lon] = coord.split(',');
+      //   console.log(lat); // I DON'T KNOW WHAT TO DOOOOOO UGH
+      // map.setPosition(new google.maps.LatLng(coord));
+    }
+
+
+  // If you want to programmatically detect an authentication failure (for example 
+  // to automatically send an beacon) you can prepare a callback function. If the 
+  // following global function is defined it will be called when the authentication fails. 
+  function gm_authFailure() { /* Code */ };
+
+
+
+
+
+
 
   </script>
 
@@ -81,7 +90,7 @@
   <div id="overlay-container" class="w-full h-screen transition ease-out visible flex"
     style="display: flex; position: absolute; top: 100vh; left: 0; z-index: 2">
     <div id="overlay"
-      class="m-6 p-6 text-center max-w-xl flex flex-col justify-between justify-items-center items-center bg-yellow-50">
+      class="m-6 p-6 text-center max-w-lg flex flex-col justify-between justify-items-center items-center bg-yellow-50">
       <div id="card" class="flex flex-col justify-items-center items-center overflow-y-auto">
         <i class="fal fa-seedling mb-6 text-xl text-gray-700"></i>
         <div id="photo-container" style="overflow: clip;">
@@ -104,8 +113,8 @@
   </div>
 
   <div id="overlay-container-all-cards"
-    class="bg-yellow-50 w-full h-screen transition ease-out visible justify-items-center"
-    style="display: flex; position: absolute; justify-content: center; top: 100vh; left: 0; z-index: 2">
+    class="bg-yellow-50 w-full h-screen transition ease-out visible justify-items-center z-20"
+    style="display: flex; position: absolute; justify-content: center; top: 100vh; left: 0;">
     <div id="card-overlay"
       class="space-y-8 text-center w-full m-6 flex flex-col justify-between justify-items-center items-center p-2">
       <h1>Your card collection</h1>
@@ -122,8 +131,11 @@
       </div>
       <div class="flex">
         <button id="export"
-          class="fal fa-x-ray focus:outline-none text-gray-700 p-3 hover:bg-yellow-100 flex items-center rounded-full border border-gray-700"
-          style="">save as pdf booklet</button>
+          class="focus:outline-none text-gray-700 mr-2 p-3 hover:bg-yellow-100 flex items-center rounded-full border border-gray-700"
+          style="">
+          <span class="fal fa-x-ray mr-2"></span>
+          <span>save as pdf booklet</span>
+          </button>
         <button id="close"
           class="fal fa-dice-d10 focus:outline-none text-gray-700 text-2xl p-3 hover:bg-yellow-100 flex items-center rounded-full border border-gray-700"
           style=""></button>
