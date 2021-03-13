@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <script src="https://kit.fontawesome.com/cb4f46b7db.js" crossorigin="anonymous"></script>
 
-    <script src="build/bundle.js"></script>
+
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;500;600&display=swap" rel="stylesheet">
     <!-- <script src="asset-on-demand.js"></script> -->
@@ -26,32 +26,41 @@
     type="text/javascript"></script> -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script>
-    function initMap() {
-      const localsky = { lat: 20.891111, lng: -156.504722 };
-      const panorama = new google.maps.StreetViewPanorama(
-        document.getElementById("pano"),
-        {
-          position: localsky,
-          pov: {
-            heading: 34,
-            pitch: 10,
-          },
-          addressControlOptions: {
-            position: google.maps.ControlPosition.BOTTOM_CENTER,
-          },
-          linksControl: false,
-          panControl: false,
-          enableCloseButton: false,
-          zoomControl: false,
-          addressControl: false,
-          motionTrackingControl: true,
-          fullscreenControl: false,
-          showRoadLabels: false,
 
-        }
-      );
-      map.setStreetView(panorama);
-    }
+      function initMap(loc) {
+        var localsky = loc ? loc : { lat: 20.891111, lng: -156.504722 };
+        // const localsky = loc;
+
+        const panorama = new google.maps.StreetViewPanorama(
+          document.getElementById("pano"),
+          {
+            position: localsky,
+            pov: {
+              heading: 34,
+              pitch: 10,
+            },
+            addressControlOptions: {
+              position: google.maps.ControlPosition.BOTTOM_CENTER,
+            },
+            linksControl: false,
+            panControl: false,
+            enableCloseButton: false,
+            zoomControl: false,
+            addressControl: false,
+            motionTrackingControl: true,
+            fullscreenControl: false,
+            showRoadLabels: false,
+
+          }
+        );
+
+      }
+
+      function listener (coord) {
+        console.log(coord)
+      }
+      // map.setStreetView(panorama);
+
     </script>
 
     <!-- <div class="loading-bg absolute h-full w-full z-20 flex flex-col justify-center">
@@ -118,7 +127,7 @@
     <a-scene cursor="rayOrigin:mouse" renderer="antialias: true">
       <a-assets>
       </a-assets>
-      <a-sky id="backup-sky" src="assets/backup-sky.jpg"></a-sky>
+      <!-- <a-sky id="backup-sky" src="assets/backup-sky.jpg"></a-sky> -->
       <a-light type="ambient" intensity="1" color="white"></a-light>
       <a-light type="point" intensity=".15" position="0 2 0" color="white"></a-light>
       <a-camera>
@@ -127,15 +136,15 @@
     <!-- <script src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js'></script> -->
 
 
-
+    <script src="build/bundle.js"></script>
     <!-- <script src="search.js"></script> -->
 
 
         <!-- ULU: GOOGLE MAPS THING THAT MUST COME LAST -->
-        <!-- <script
+        <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initMap&libraries=&v=weekly"
         async
-      ></script> -->
+      ></script>
 
   </body>
 </html>
