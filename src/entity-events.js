@@ -11,6 +11,7 @@ var displayObservationCard = (index, observations, basket, biomes) => {
 
   // Update data
   basket.push(observations[index]);
+  console.log(observations[index])
   $("#counter").html(basket.length).addClass("ml-2")
   populateCard("#card", observations[index]);
 
@@ -26,7 +27,8 @@ var displayObservationCard = (index, observations, basket, biomes) => {
   var num = "card-num" + basket.length;
   var newCard = cardHTML.replace("card-num", num);
   var photoId = 'id="photo' + basket.length + '"';
-      newCard = newCard.replace('id="photo"', photoId)
+      newCard = newCard.replace('id="photo"', photoId);
+
   $("#all-cards").append(newCard);
   num = "#" + num;
   populateCard(num, observations[index], basket.length);
@@ -42,14 +44,11 @@ var populateCard = (parent, observation, index) => {
     $(tag).html('');
     if(inat_data[j] == "photo"){
       var tag = index ? "#photo" + (index) : "#photo";
-      console.log(tag);
 
-       if (observation.hasOwnProperty('observation_photo_attachment')) {
+      if (observation.hasOwnProperty('observation_photo_attachment')) {
         $(tag).attr('src', observation["observation_photo_attachment"][0]["url"]);
-        // $("#photo-container").style.backgroundImage="url(" + observation["observation_photo_url"] + ")";
-       } else {
+      } else {
         $(tag).attr('src', observation["default_photo"]);
-        // $("#photo-container").style.backgroundImage="url(" + observation["default_photo"] + ")";
       }
     } else {
       $(tag).html(observation[inat_data[j]]);

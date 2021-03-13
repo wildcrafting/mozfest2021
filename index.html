@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" type="text/css" href="build/stylesheet.css">
   <link rel="stylesheet" type="text/css" href="build/main.css">
   <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
@@ -27,8 +26,6 @@
     type="text/javascript"></script> -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   <script>
-
-
 
     function initMap(coord) {
       var localsky = { lat: 20.891111, lng: -156.504722 };
@@ -159,6 +156,8 @@
 
   <a-scene cursor="rayOrigin:mouse" renderer="antialias: true">
     <a-assets>
+      <img id="card-texture" src="assets/watercolor.jpg">
+      <!-- <img id="card-texture" src="assets/washi.jpg"> -->
     </a-assets>
     <!-- <a-sky id="backup-sky" src="assets/backup-sky.jpg"></a-sky> -->
     <a-light type="ambient" intensity="1" color="white"></a-light>

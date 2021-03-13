@@ -1,7 +1,7 @@
 var observations = [];
 var basket = [];
-var biomes = {"Afrotropical":1, "Australasia":1, "Indo-Malayan":1, "Nearctic":1, "Neotropical":1, "Oceania":1, "Palearctic":1};
-// var biomes = {};
+// var biomes = {"Afrotropical":1, "Australasia":1, "Indo-Malayan":1, "Nearctic":1, "Neotropical":1, "Oceania":1, "Palearctic":1};
+var biomes = {};
 
 import * as entities from './entities.js';
 import * as search from './search.js';
@@ -44,5 +44,3 @@ $( document ).ready(function() {
   });
 
 });
-
-
