@@ -27,13 +27,27 @@
     type="text/javascript"></script> -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   <script>
+    let map;
+    let panorama;
+    let empty = true;
 
-    function initMap(coord) {
-      var localsky = { lat: 20.891111, lng: -156.504722 };
-      // var newsky =  new google.maps.LatLng(coord);
-      // const localsky = loc;
+    function getCustomPanorama(coord) {
+      var localsky = coord ? coord : { lat: 20.891111, lng: -156.504722 } ;
+      return {
+          position: localsky,
+          pov: {
+            heading: 34,
+            pitch: 10,
+          },
+          disableDefaultUI: true,
+          radius: 50000
+        }
+    }
 
-      const panorama = new google.maps.StreetViewPanorama(
+    async function initMap(coord) {
+      var localsky = coord ? coord : { lat: 20.891111, lng: -156.504722 } ;
+
+      panorama = await new google.maps.StreetViewPanorama(
         document.getElementById("pano"),
         {
           position: localsky,
@@ -42,20 +56,25 @@
             pitch: 10,
           },
           disableDefaultUI: true,
+          radius: 50000,
         }
       );
-    }
-      map.setStreetView(panorama);
 
+      panorama.addListener("position_changed", () => {
+        $("a-sky").attr("opacity", 0)
+        empty = "not empty";
+        console.log("not empty")
+      });
+
+    }
 
 
   function listener(coord) {
-      console.log(coord);
-      console.log(new google.maps.LatLng(coord));
-      // const [lat, lon] = coord.split(',');
-      //   console.log(lat); // I DON'T KNOW WHAT TO DOOOOOO UGH
-      // map.setPosition(new google.maps.LatLng(coord));
-    }
+    const latlng = coord.split(',');
+    empty = "empty";
+    $("a-sky").attr("opacity", 1)
+    initMap({  lat: parseFloat(latlng[0]), lng: parseFloat(latlng[1]) });
+  }
 
 
   // If you want to programmatically detect an authentication failure (for example
@@ -104,7 +123,7 @@
               id="econame"></span><br> in the <span class="font-semibold" id="biome"></span> biome</div>
         </div>
 
-        
+
       </div>
       <button id="close"
         class="fal fa-dice-d10 focus:outline-none text-gray-700 text-2xl p-3 hover:bg-yellow-100 flex items-center rounded-full border border-gray-700 mt-6"
@@ -162,7 +181,7 @@
       <img id="card-texture" src="assets/watercolor.jpg">
       <!-- <img id="card-texture" src="assets/washi.jpg"> -->
     </a-assets>
-    <!-- <a-sky id="backup-sky" src="assets/backup-sky.jpg"></a-sky> -->
+    <a-sky id="backup-sky" src="assets/backup-sky.jpg" style="visibility: hidden"></a-sky>
     <a-light type="ambient" intensity="1" color="white"></a-light>
     <a-light type="point" intensity=".15" position="0 2 0" color="white"></a-light>
     <a-camera>

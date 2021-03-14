@@ -5,13 +5,15 @@ var cardHTML = '<div id="card-num" class="text-md m-3 font-light border-2 border
 var artifact;
 var observations;
 
+var currRealm = "";
+
 // Card animations
 var hideObservationCard = () => {$("#overlay-container").animate({top:"100vh"});}
 var displayObservationCard = (index, observations, basket, biomes) => {
 
   // Update data
   basket.push(observations[index]);
-  console.log(observations[index])
+  // console.log(observations[index])
   $("#counter").html(basket.length).addClass("ml-2")
   populateCard("#card", observations[index]);
 
@@ -20,6 +22,11 @@ var displayObservationCard = (index, observations, basket, biomes) => {
   if(biome){
     biomes[biome] = biomes[biome]? biomes[biome] + 1 : 1;
   }
+
+  // if(biome != currRealm){
+  //     listener(biome);
+  // }
+
   listener(observations[index]["latLng"]) // ulu use these coordinates
 
 
