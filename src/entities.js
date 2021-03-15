@@ -50,18 +50,21 @@ var entities = (observations, basket, biomes) => {
         // this.el.object3D.rotation.y ;
         el.addEventListener('mouseenter', function () {
           el.object3D.scale.copy({x: 1.5, y: 1.5, z:1.5});
-          $("a-sky").fadeTo(200, 1);
+          // $("a-sky").fadeTo(200, 1);
+          document.querySelector('#backup-sky').emit('fade-in');
         });
         el.addEventListener('mouseleave', function () {
           el.object3D.scale.copy({x: 1, y: 1, z:1});
-          $("a-sky").fadeTo(500, 0);
+          // $("a-sky").fadeTo(500, 0);
+          document.querySelector('#backup-sky').emit('fade-out');
         });
         this.el.addEventListener('click', function () {
           el.setAttribute('animation', 'property: position; to: 0 0 0');
           // window.setTimeout(function(){
             entityEvent.displayObservationCard(self.data.index, observations, basket, biomes);
             // },700);
-            $("a-sky").fadeTo(500, 0);
+            // $("a-sky").fadeTo(500, 0);
+            document.querySelector('#backup-sky').emit('fade-out');
         });
       }
     });
