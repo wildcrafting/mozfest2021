@@ -61,7 +61,7 @@ var entities = (observations, basket, biomes) => {
           // window.setTimeout(function(){
             entityEvent.displayObservationCard(self.data.index, observations, basket, biomes);
             // },700);
-            $("#backup-sky").fadeOut(500);
+            $("#backup-sky").fadeTo(500, 0);
         });
       }
     });
