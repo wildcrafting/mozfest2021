@@ -61,7 +61,8 @@
       );
 
       panorama.addListener("position_changed", () => {
-        $("a-sky").attr("opacity", 0);
+        // $("a-sky").attr("opacity", 0);
+        $("#backup-sky").fadeOut(500);
         empty = "not empty";
         console.log("not empty")
       });
@@ -72,7 +73,8 @@
   function listener(coord) {
     const latlng = coord.split(',');
     empty = "empty";
-    $("a-sky").attr("opacity", 1);
+    // $("a-sky").attr("opacity", 1);
+    $("#backup-sky").fadeIn(200);
     initMap({  lat: parseFloat(latlng[0]), lng: parseFloat(latlng[1]) });
   }
 
