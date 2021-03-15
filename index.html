@@ -23,8 +23,8 @@
 
 <body>
   <!-- Ulu's Google API Script -->
-  <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3_69wsiBbL0UU8r496ezIR99o67pTkRk&callback=initMap"
-    type="text/javascript"></script> -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3_69wsiBbL0UU8r496ezIR99o67pTkRk&callback=initMap"
+    type="text/javascript"></script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   <script>
     let map;
@@ -61,7 +61,7 @@
       );
 
       panorama.addListener("position_changed", () => {
-        $("a-sky").attr("opacity", 0)
+        $("a-sky").attr("opacity", 0);
         empty = "not empty";
         console.log("not empty")
       });
@@ -72,7 +72,7 @@
   function listener(coord) {
     const latlng = coord.split(',');
     empty = "empty";
-    $("a-sky").attr("opacity", 1)
+    $("a-sky").attr("opacity", 1);
     initMap({  lat: parseFloat(latlng[0]), lng: parseFloat(latlng[1]) });
   }
 
@@ -181,7 +181,7 @@
       <img id="card-texture" src="assets/watercolor.jpg">
       <!-- <img id="card-texture" src="assets/washi.jpg"> -->
     </a-assets>
-    <a-sky id="backup-sky" src="assets/backup-sky.jpg" style="visibility: hidden"></a-sky>
+    <a-sky id="backup-sky" src="assets/backup-sky.jpg" style="display: none;"></a-sky>
     <a-light type="ambient" intensity="1" color="white"></a-light>
     <a-light type="point" intensity=".15" position="0 2 0" color="white"></a-light>
     <a-camera>
