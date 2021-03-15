@@ -63,7 +63,7 @@
 
       panorama.addListener("position_changed", () => {
         // $("a-sky").attr("opacity", 0);
-        $("#backup-sky").fadeTo(500, 0);
+        $("a-sky").fadeTo(500, 0);
         // $("a-sky").fadeIn(200);
         empty = "not empty";
         console.log("not empty")
@@ -77,7 +77,7 @@
     empty = "empty";
     // $("a-sky").attr("opacity", 1);
     // $("a-sky").fadeIn(200);
-    $("#backup-sky").fadeTo(200, 1);
+    $("a-sky").fadeTo(200, 1);
     initMap({  lat: parseFloat(latlng[0]), lng: parseFloat(latlng[1]) });
   }
 
