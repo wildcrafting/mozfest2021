@@ -134,7 +134,7 @@ function Artifact(basket, biomes){
     doc.fontSize(36).text('wildcrafting', {width: contentWidth, align: 'left'});
     doc.fontSize(16).text("your collection of cards, telling us of the plants that underpin MozFest 2021.", {width: contentWidth, align: 'left'});
     doc.moveDown()
-    doc.fontSize(12).text(" An exhibit by ulu Mills, devika singh, cathryn ploehn, and jessica liu.", {width: contentWidth, align: 'left'});
+    doc.fontSize(12).text(" an exhibit by ulu mills, devika singh, cathryn ploehn, and jessica liu.", {width: contentWidth, align: 'left'});
     doc.moveDown();
 
     var canvas = document.getElementById("artifactCanvas");
@@ -211,7 +211,7 @@ function Artifact(basket, biomes){
         var uri = forPDF.toDataURL('image/png');
         var stringHeight = doc.heightOfString(string2, {width: contentWidth})
         var imgHeight = (height - stringHeight) - (margin * 4);
-        doc.image(new Buffer(uri.replace('data:image/png;base64,',''), 'base64'), {fit: [contentWidth, imgHeight], align: 'left', valign: 'top'});
+        doc.image(new Buffer(uri.replace('data:image/png;base64,',''), 'base64'), {fit: [contentWidth, imgHeight], align: 'left', valign: 'bottom'});
         doc.moveDown();
       }
 
@@ -240,7 +240,7 @@ function Artifact(basket, biomes){
       const url = stream.toBlobURL('application/pdf');
       var a = document.createElement("a");
       a.href = url;
-      a.download = "MMMMMMMmozFest.pdf";
+      a.download = "wildcrafting-booklet.pdf";
       a.click();
       $("#export").prop("disabled", false);
       $("#export-text").html("export as pdf");
