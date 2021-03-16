@@ -16,10 +16,15 @@ function Artifact(basket, biomes){
     var radius;
     var currentNumBiomes = 0;
     var tree;
+    var poppinsFont;
 
+    p.preload = function (){
+      poppinsFont = p.loadFont('../assets/Poppins-Regular.ttf');
+    }
     p.setup = async function() {
       p.frameRate(24);
       p.textSize(12);
+      p.textFont(poppinsFont);
 
       var elem = document.getElementById("artifact-container");
       var dimensions = elem.clientWidth > 600? 600: elem.clientWidth;
@@ -96,14 +101,15 @@ function Artifact(basket, biomes){
   }
 
   this.exportCards = async () => {
-
+    $("#export").prop("disabled", true);
+    $("#export-text").html("exporting pdf");
     var outerElem = document.getElementById('overlay-container-all-cards')
     var width = outerElem.clientWidth;
     var height = outerElem.clientHeight;
     var margin = width > 600 ? 100 : 50;
     var imageMargin = width > 600 ? margin : 10;
     var quoteFontSize = width > 600 ? 16 : 12;
-    var plantPath = width > 600 ? 'M105.4,105.9h-6.3c0,12.2,9.9,22.2,22.2,22.2v14.3c0,0.9,0.7,1.6,1.6,1.6h3.2c0.9,0,1.6-0.7,1.6-1.6v-14.3 C127.6,115.9,117.7,105.9,105.4,105.9z M143.4,99.6c-8.3,0-15.5,4.6-19.3,11.4c2.7,3,4.8,6.6,5.8,10.6c11.2-1.1,19.9-10.5,19.9-22 H143.4z' : 'M56.5,56.6h-6.3c0,12.2,9.9,22.2,22.2,22.2v14.3c0,0.9,0.7,1.6,1.6,1.6h3.2c0.9,0,1.6-0.7,1.6-1.6V78.8 C78.7,66.6,68.8,56.6,56.5,56.6z M94.4,50.3c-8.3,0-15.5,4.6-19.3,11.4c2.7,3,4.8,6.6,5.8,10.6c11.2-1.1,19.9-10.5,19.9-22H94.4z';
+    var plantPath = width > 600 ? 'M143.5,95.6c-9.9,0-18.2,8.2-20.4,19.2c-3.6-7.5-10.4-12.6-18.2-12.6h-7.2v1.7c0,13.7,9.4,24.8,20.9,24.8h3.8v12.4 c0,0.5,0.4,0.8,0.8,0.8h1.7c0.5,0,0.8-0.4,0.8-0.8v-19h3.8c11.5,0,20.9-11.1,20.9-24.8v-1.7H143.5z M118.7,125.3 c-9.3,0-16.9-8.8-17.6-19.8h3.8c9.3,0,16.9,8.8,17.6,19.8H118.7L118.7,125.3z M129.7,118.7h-3.8c0.7-11.1,8.3-19.8,17.6-19.8h3.8 C146.6,109.9,139,118.7,129.7,118.7L129.7,118.7z' : 'M93.4,48.5c-9.9,0-18.2,8.2-20.4,19.2c-3.6-7.5-10.4-12.6-18.2-12.6h-7.2v1.7c0,13.7,9.4,24.8,20.9,24.8h3.8v12.4   c0,0.5,0.4,0.8,0.8,0.8h1.7c0.5,0,0.8-0.4,0.8-0.8v-19h3.8c11.5,0,20.9-11.1,20.9-24.8v-1.7H93.4z M68.6,78.2 c-9.3,0-16.9-8.8-17.6-19.8h3.8c9.3,0,16.9,8.8,17.6,19.8H68.6L68.6,78.2z M79.6,71.6h-3.8c0.7-11.1,8.3-19.8,17.6-19.8h3.8 C96.5,62.8,88.9,71.6,79.6,71.6L79.6,71.6z';
     var contentWidth = width < 400 ? width - (margin * 2) : 400;
     var textX = (width - contentWidth) / 2;
     var y = (height - contentWidth) / 2;
@@ -126,16 +132,17 @@ function Artifact(basket, biomes){
     doc.fillColor("#000000")
     // cover
     doc.fontSize(36).text('wildcrafting', {width: contentWidth, align: 'left'});
-    doc.fontSize(16).text("Your collection of cards, telling us of the plants that underpin MozFest 2021.", {width: contentWidth, align: 'left'});
+    doc.fontSize(16).text("your collection of cards, telling us of the plants that underpin MozFest 2021.", {width: contentWidth, align: 'left'});
     doc.moveDown()
-    doc.fontSize(12).text(" An exhibit by Ulu Mills, Devika Singh, Cathryn Ploehn, and Jessica Liu.", {width: contentWidth, align: 'left'});
+    doc.fontSize(12).text(" An exhibit by ulu Mills, devika singh, cathryn ploehn, and jessica liu.", {width: contentWidth, align: 'left'});
     doc.moveDown();
 
     var canvas = document.getElementById("artifactCanvas");
     var image = canvas.toDataURL("image/png");
     doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [canvasWidth, canvasWidth], align: 'center', valign: 'center', x: imageMargin}); // this will decode your base64 to a new buffer
 
-    var quote = '"It has to do with the realization that we are all beings on the same earth, and that we all need the same things to flourish. Water, for example. When I pay attention to how birds interact with water, or how mosses interact with water, or how lichens interact with water, I feel a kinship with them. I know what a cold drink of water feels like, but what would it be like to drink water over my entire body, as a lichen does? Kinship also comes from our reciprocal relationship with other species. Sitting here, you can get a whiff of ripe wild strawberries off the hillside. They are fulfilling their responsibility to us, and we will fulfill our responsibility to them. Those berries provide us with food and medicine, and in reciprocity, we perhaps unwittingly disperse their seeds and tend their habitat so they can continue to thrive. It’s like a family: we help each other out." \n\n Dr. Robin Wall Kimmerer'
+    var quote = '"It has to do with the realization that we are all beings on the same earth, and that we all need the same things to flourish. Water, for example. When I pay attention to how birds interact with water, or how mosses interact with water, or how lichens interact with water, I feel a kinship with them. I know what a cold drink of water feels like, but what would it be like to drink water over my entire body, as a lichen does? Kinship also comes from our reciprocal relationship with other species. Sitting here, you can get a whiff of ripe wild strawberries off the hillside. They are fulfilling their responsibility to us, and we will fulfill our responsibility to them. Those berries provide us with food and medicine, and in reciprocity, we perhaps unwittingly disperse their seeds and tend their habitat so they can continue to thrive. It’s like a family: we help each other out." \n\n Dr. Robin Wall Kimmerer';
+    quote = quote.toLowerCase();
 
     doc.addPage();
     doc.rect(0, 0, width, height).fill("#FFFBEB");
@@ -163,45 +170,69 @@ function Artifact(basket, biomes){
       var plantName = basket[i]["preferred_common_name"] ? basket[i]["preferred_common_name"] : basket[i]["species_guess"];
       var description = basket[i]["description"] ? ", saying: \n\n" + basket[i]["description"] : ".";
       var string1 = name + " told us of " + plantName + description;
+      string1 = string1.toLowerCase();
 
       var econame = basket[i]["econame"] ? "From the " + basket[i]["econame"] : "";
-      var biome = basket[i]["biome"] ? "in the realm " + basket[i]["biome"] : "";
+      var biome = basket[i]["biome"] ? " in the realm " + basket[i]["biome"] : "";
 
-      var string2  = econame + biome;
+      var string2  = string1 + "\n\n" + econame + biome;
+      string2 = string2.toLowerCase()
 
       // var stringHeight = doc.heightOfString(runningString + newString, {width: contentWidth});
 
-      doc.fontSize(quoteFontSize).text(`${string1}`, {
+      doc.fontSize(quoteFontSize).text(`${string2}`, {
         width: contentWidth,
         align: 'left',
         x: 0
       });
       doc.moveDown();
 
-      doc.fontSize(12).text(`${string2}`, {
-        width: contentWidth,
-        align: 'left',
-        x: 0,
-        oblique: true
-      });
-      doc.moveDown();
-
-
-
-      // Once again we can't use images from iNat because of their CORS policy
-      // var tag = "photo" + (i + 1);
-      // var imgElem = document.getElementById(tag)
-      // var imgElem = downloadImage(basket[i]["observation_photo_url"])
-      // forPDF.height = imgElem.naturalHeight;
-      // forPDF.width = imgElem.naturalWidth;
-      // ctx.drawImage(imgElem, 0, 0);
-      // var uri = forPDF.toDataURL('image/png')
-      // doc.image(new Buffer(uri.replace('data:image/png;base64,',''), 'base64'), {fit: [100, 100], align: 'center', valign: 'center'});
+      // doc.fontSize(12).text(`${string2}`, {
+      //   width: contentWidth,
+      //   align: 'left',
+      //   x: 0,
+      //   oblique: true
+      // });
       // doc.moveDown();
 
 
 
+      // Once again we can't use images from iNat because of their CORS policy
+      console.log(basket[i]["observation_photo_attachment"])
+
+      if(basket[i]["observation_photo_attachment"]){
+        // var tag = "photo" + (i + 1);
+        // var imgElem = document.getElementById(tag)
+        var imgElem = await downloadImage(basket[i]["observation_photo_attachment"][0]["url"])
+        console.log(imgElem);
+        forPDF.height = imgElem.naturalHeight;
+        forPDF.width = imgElem.naturalWidth;
+        ctx.drawImage(imgElem, 0, 0);
+        var uri = forPDF.toDataURL('image/png');
+        var stringHeight = doc.heightOfString(string2, {width: contentWidth})
+        var imgHeight = (height - stringHeight) - (margin * 4);
+        doc.image(new Buffer(uri.replace('data:image/png;base64,',''), 'base64'), {fit: [contentWidth, imgHeight], align: 'left', valign: 'top'});
+        doc.moveDown();
+      }
+
+
+
     }
+
+    doc.addPage();
+    doc.rect(0, 0, width, height).fill("#FFFBEB");
+    doc.moveTo(0, 0);
+    doc.fillColor("#000000");
+    doc.fontSize(16).text("about the creators", {width: contentWidth, align: 'left'});
+    doc.moveDown();
+    doc.fontSize(12).text(" ulu mills is a product designer at landed and a master’s candidate at carnegie mellon university", {width: contentWidth, align: 'left'});
+    doc.moveDown();
+    doc.fontSize(12).text("devika singh is a product designer at linkedin and holds a MDes from carnegie mellon university", {width: contentWidth, align: 'left'});
+    doc.moveDown();
+    doc.fontSize(12).text("cathryn ploehn is an interaction designer and lecturer who holds a MDes from carnegie mellon university", {width: contentWidth, align: 'left'});
+    doc.moveDown();
+    doc.fontSize(12).text("jessica liu is a data person at landed", {width: contentWidth, align: 'left'});
+    doc.moveDown();
 
     // finalize the PDF and end the stream
     doc.end();
@@ -211,8 +242,9 @@ function Artifact(basket, biomes){
       a.href = url;
       a.download = "MMMMMMMmozFest.pdf";
       a.click();
+      $("#export").prop("disabled", false);
+      $("#export-text").html("export as pdf");
     });
-
   };
 
   var sketch = new p5(artifactSketch,document.getElementById('artifact-container'));
