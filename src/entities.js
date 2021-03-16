@@ -161,7 +161,7 @@ var entities = (observations, basket, biomes) => {
           }
 
           var line = document.createElement('a-entity');
-          var sch = {lineWidth: 2, path: path, color: "#331a00", lineWidthStyler: "1 - p + .5"};
+          var sch = {lineWidth: 4, path: path, color: "#331a00", lineWidthStyler: "1 - p + .5"};
 
           line.setAttribute('meshline',sch);
           this.el.appendChild(line);
