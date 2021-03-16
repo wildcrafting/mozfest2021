@@ -132,14 +132,14 @@ function Artifact(basket, biomes){
     doc.fillColor("#000000")
     // cover
     doc.fontSize(36).text('wildcrafting', {width: contentWidth, align: 'left'});
-    doc.fontSize(16).text("your collection of cards, telling us of the plants that underpin MozFest 2021.", {width: contentWidth, align: 'left'});
+    doc.fontSize(16).text("your collection of cards, telling us of the plants that underpin mozfest 2021.", {width: contentWidth, align: 'left'});
     doc.moveDown()
     doc.fontSize(12).text(" an exhibit by ulu mills, devika singh, cathryn ploehn, and jessica liu.", {width: contentWidth, align: 'left'});
     doc.moveDown();
 
     var canvas = document.getElementById("artifactCanvas");
     var image = canvas.toDataURL("image/png");
-    doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [canvasWidth, canvasWidth], align: 'center', valign: 'center', x: imageMargin}); // this will decode your base64 to a new buffer
+    doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [canvasWidth, canvasWidth], align: 'center', valign: 'bottom', x: imageMargin}); // this will decode your base64 to a new buffer
 
     var quote = '"It has to do with the realization that we are all beings on the same earth, and that we all need the same things to flourish. Water, for example. When I pay attention to how birds interact with water, or how mosses interact with water, or how lichens interact with water, I feel a kinship with them. I know what a cold drink of water feels like, but what would it be like to drink water over my entire body, as a lichen does? Kinship also comes from our reciprocal relationship with other species. Sitting here, you can get a whiff of ripe wild strawberries off the hillside. They are fulfilling their responsibility to us, and we will fulfill our responsibility to them. Those berries provide us with food and medicine, and in reciprocity, we perhaps unwittingly disperse their seeds and tend their habitat so they can continue to thrive. It’s like a family: we help each other out." \n\n Dr. Robin Wall Kimmerer';
     quote = quote.toLowerCase();
@@ -166,7 +166,7 @@ function Artifact(basket, biomes){
       doc.moveDown();
       doc.moveDown();
 
-      var name = basket[i]["participant_name"] ? basket[i]["participant_name"] : "A MozFester";
+      var name = basket[i]["participant_name"] ? basket[i]["participant_name"] : "a mozfest wildcrafter";
       var plantName = basket[i]["preferred_common_name"] ? basket[i]["preferred_common_name"] : basket[i]["species_guess"];
       var description = basket[i]["description"] ? ", saying: \n\n" + basket[i]["description"] : ".";
       var string1 = name + " told us of " + plantName + description;
@@ -211,7 +211,7 @@ function Artifact(basket, biomes){
         var uri = forPDF.toDataURL('image/png');
         var stringHeight = doc.heightOfString(string2, {width: contentWidth})
         var imgHeight = (height - stringHeight) - (margin * 4);
-        doc.image(new Buffer(uri.replace('data:image/png;base64,',''), 'base64'), {fit: [contentWidth, imgHeight], align: 'left', valign: 'bottom'});
+        doc.image(new Buffer(uri.replace('data:image/png;base64,',''), 'base64'), {fit: [contentWidth, imgHeight], align: 'left', valign: 'top'});
         doc.moveDown();
       }
 

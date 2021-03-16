@@ -61,7 +61,7 @@ var populateCard = (parent, observation, index) => {
       if(observation[inat_data[j]]){
         $(tag).html(observation[inat_data[j]]);
       } else {
-        $(tag).html("A MozFester")
+        $(tag).html("A mozfest wildcrafter ")
       }
     } else if (inat_data[j] == "description") {
       if(observation[inat_data[j]]) {
