@@ -18,7 +18,7 @@ async function airtableSearch(observations){
 
   var airtablePromise = new Promise((resolve, reject) => {
     $.ajax({
-      url:"https://api.airtable.com/v0/appIRHtaHUcrpPCvK/MozFestTest?api_key=keyQSVeKTIgDnDvgT",
+      url:"https://api.airtable.com/v0/appIRHtaHUcrpPCvK/Observation?api_key=keyQSVeKTIgDnDvgT",
       success: function(data){
         for(var i = 0; i < data.records.length; i++){
           observations.push(data.records[i].fields);

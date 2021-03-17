@@ -65,7 +65,7 @@
         // $("a-sky").attr("opacity", 0);
         // $("a-sky").fadeTo(500, 0);
         // $("a-sky").fadeIn(200);
-        document.getElementById('#backup-sky').emit('fade-out');
+        // document.getElementById('#backup-sky').emit('fade-out');
         empty = "not empty";
         console.log("not empty")
       });
@@ -77,7 +77,7 @@
     const latlng = coord.split(',');
     empty = "empty";
     // $("a-sky").attr("opacity", 1);
-    document.querySelector('#backup-sky').emit('fade-in');
+    // document.getElementById('#backup-sky').emit('fade-in');
     // $("a-sky").fadeIn(200);
     // $("a-sky").fadeTo(200, 1);
     initMap({  lat: parseFloat(latlng[0]), lng: parseFloat(latlng[1]) });

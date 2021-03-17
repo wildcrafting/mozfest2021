@@ -125,21 +125,22 @@ function Artifact(basket, biomes){
     var stream = doc.pipe(blobStream());
     var forPDF = document.getElementById('forPDF');
     var ctx = forPDF.getContext('2d');
+    var artifactImageWidth = canvasWidth > 500 ? 500 : canvasWidth;
 
-    doc.font("Helvetica");
+    doc.font("Helvetica-Bold");
     doc.rect(0, 0, width, height).fill("#FFFBEB");
     doc.moveTo(0, 0);
     doc.fillColor("#000000")
     // cover
     doc.fontSize(36).text('wildcrafting', {width: contentWidth, align: 'left'});
-    doc.fontSize(16).text("your collection of cards, telling us of the plants that underpin mozfest 2021.", {width: contentWidth, align: 'left'});
+    doc.font("Helvetica").fontSize(16).text("your collection of cards, telling us of the plants that underpin mozfest 2021.", {width: contentWidth, align: 'left'});
     doc.moveDown()
-    doc.fontSize(12).text(" an exhibit by ulu mills, devika singh, cathryn ploehn, and jessica liu.", {width: contentWidth, align: 'left'});
+    doc.fontSize(12).text("an exhibit", {width: contentWidth, align: 'left', underline: true, link: "https://wildcrafting.github.io/mozfest2021/", continued : true}).fontSize(12).text(" by ulu mills, devika singh, cathryn ploehn, and jessica liu.", {underline: false});
     doc.moveDown();
 
     var canvas = document.getElementById("artifactCanvas");
     var image = canvas.toDataURL("image/png");
-    doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [canvasWidth, canvasWidth], align: 'center', valign: 'bottom', x: imageMargin}); // this will decode your base64 to a new buffer
+    doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [artifactImageWidth, artifactImageWidth], align: 'left', valign: 'bottom'}); // this will decode your base64 to a new buffer
 
     var quote = '"It has to do with the realization that we are all beings on the same earth, and that we all need the same things to flourish. Water, for example. When I pay attention to how birds interact with water, or how mosses interact with water, or how lichens interact with water, I feel a kinship with them. I know what a cold drink of water feels like, but what would it be like to drink water over my entire body, as a lichen does? Kinship also comes from our reciprocal relationship with other species. Sitting here, you can get a whiff of ripe wild strawberries off the hillside. They are fulfilling their responsibility to us, and we will fulfill our responsibility to them. Those berries provide us with food and medicine, and in reciprocity, we perhaps unwittingly disperse their seeds and tend their habitat so they can continue to thrive. It’s like a family: we help each other out." \n\n Dr. Robin Wall Kimmerer';
     quote = quote.toLowerCase();
@@ -159,32 +160,24 @@ function Artifact(basket, biomes){
       doc.path(plantPath)
           .fill()
       doc.moveTo(0, margin);
-      doc.moveDown();
-      doc.moveDown();
-      doc.moveDown();
-      doc.moveDown();
-      doc.moveDown();
-      doc.moveDown();
 
-      var name = basket[i]["participant_name"] ? basket[i]["participant_name"] : "a mozfest wildcrafter";
-      var plantName = basket[i]["preferred_common_name"] ? basket[i]["preferred_common_name"] : basket[i]["species_guess"];
-      var description = basket[i]["description"] ? ", saying: \n\n" + basket[i]["description"] : ".";
-      var string1 = name + " told us of " + plantName + description;
-      string1 = string1.toLowerCase();
 
-      var econame = basket[i]["econame"] ? "From the " + basket[i]["econame"] : "";
-      var biome = basket[i]["biome"] ? " in the realm " + basket[i]["biome"] : "";
+      var name = "\n\n\n\n\n";
+      name = basket[i]["participant_name"] ? name + basket[i]["participant_name"] + " told us of " : name + "a mozfest wildcrafter told us of ";
+      var plantName = basket[i]["preferred_common_name"] ? basket[i]["preferred_common_name"].toLowerCase() : basket[i]["species_guess"].toLowerCase();
+      var description = basket[i]["description"] ? '\n\n "' + basket[i]["description"].toLowerCase()  + '" \n\n\n': "\n\n";
 
-      var string2  = string1 + "\n\n" + econame + biome;
-      string2 = string2.toLowerCase()
+      var econame = basket[i]["econame"] ? "from the " + basket[i]["econame"].toLowerCase(): "";
+      var biome = basket[i]["biome"] ? " in the realm " + basket[i]["biome"].toLowerCase() : "";
+
+      var measureString  = name + plantName + description + econame + biome;
+      measureString = measureString.toLowerCase()
 
       // var stringHeight = doc.heightOfString(runningString + newString, {width: contentWidth});
 
-      doc.fontSize(quoteFontSize).text(`${string2}`, {
-        width: contentWidth,
-        align: 'left',
-        x: 0
-      });
+      doc.fontSize(quoteFontSize).font("Helvetica").text(`${name}`, { width: contentWidth, align: 'left', x: 0 , continued: true}).font("Helvetica-Bold").text(`${plantName}`);
+      doc.font("Helvetica-Oblique").text(`${description}`, { width: contentWidth, align: 'left', x: 0});
+      doc.font("Helvetica").text(`${econame}`, { continued: true, width: contentWidth, align: 'left', x: 0}).font("Helvetica-Oblique").font("Helvetica-BoldOblique").text(`${biome}`, { width: contentWidth, align: 'left', x: 0});
       doc.moveDown();
 
       // doc.fontSize(12).text(`${string2}`, {
@@ -194,23 +187,15 @@ function Artifact(basket, biomes){
       //   oblique: true
       // });
       // doc.moveDown();
-
-
-
-      // Once again we can't use images from iNat because of their CORS policy
-      console.log(basket[i]["observation_photo_attachment"])
-
+      console.log(basket[i]["observation_photo_attachment"]);
       if(basket[i]["observation_photo_attachment"]){
-        // var tag = "photo" + (i + 1);
-        // var imgElem = document.getElementById(tag)
         var imgElem = await downloadImage(basket[i]["observation_photo_attachment"][0]["url"])
-        console.log(imgElem);
         forPDF.height = imgElem.naturalHeight;
         forPDF.width = imgElem.naturalWidth;
         ctx.drawImage(imgElem, 0, 0);
         var uri = forPDF.toDataURL('image/png');
-        var stringHeight = doc.heightOfString(string2, {width: contentWidth})
-        var imgHeight = (height - stringHeight) - (margin * 4);
+        var stringHeight = doc.heightOfString(measureString, {width: contentWidth})
+        var imgHeight = (height - stringHeight) - (margin * 3);
         doc.image(new Buffer(uri.replace('data:image/png;base64,',''), 'base64'), {fit: [contentWidth, imgHeight], align: 'left', valign: 'top'});
         doc.moveDown();
       }
@@ -223,16 +208,27 @@ function Artifact(basket, biomes){
     doc.rect(0, 0, width, height).fill("#FFFBEB");
     doc.moveTo(0, 0);
     doc.fillColor("#000000");
+    doc.path(plantPath)
+        .fill()
+    doc.moveTo(0, margin);
+    doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
     doc.fontSize(16).text("about the creators", {width: contentWidth, align: 'left'});
     doc.moveDown();
-    doc.fontSize(12).text(" ulu mills is a product designer at landed and a master’s candidate at carnegie mellon university", {width: contentWidth, align: 'left'});
+    doc.font("Helvetica-Bold").fontSize(12).text("ulu mills ", {width: contentWidth, align: 'left', continued: true}).font("Helvetica").fontSize(12).text("is a product designer at landed and a master’s candidate at carnegie mellon university. aloha@ulumills.com", {width: contentWidth, align: 'left'});
     doc.moveDown();
-    doc.fontSize(12).text("devika singh is a product designer at linkedin and holds a MDes from carnegie mellon university", {width: contentWidth, align: 'left'});
+    doc.font("Helvetica-Bold").fontSize(12).text("devika singh ", {width: contentWidth, align: 'left', continued: true}).font("Helvetica").fontSize(12).text("is a product designer at linkedin and holds a MDes from carnegie mellon university. devika711@gmail.com", {width: contentWidth, align: 'left'});
     doc.moveDown();
-    doc.fontSize(12).text("cathryn ploehn is an interaction designer and lecturer who holds a MDes from carnegie mellon university", {width: contentWidth, align: 'left'});
+    doc.font("Helvetica-Bold").fontSize(12).text("cathryn ploehn ", {width: contentWidth, align: 'left', continued: true}).font("Helvetica").fontSize(12).text("is an interaction designer and lecturer who holds a MDes from carnegie mellon university", {width: contentWidth, align: 'left'});
     doc.moveDown();
-    doc.fontSize(12).text("jessica liu is a data person at landed", {width: contentWidth, align: 'left'});
+    doc.font("Helvetica-Bold").fontSize(12).text("jessica liu ", {width: contentWidth, align: 'left', continued: true}).font("Helvetica").fontSize(12).text("is a data person at landed. nsahn.liu@gmail.com", {width: contentWidth, align: 'left'});
     doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
+    doc.font("Helvetica").fontSize(12).text("~ spring 2021", {width: contentWidth, align: 'left'});
 
     // finalize the PDF and end the stream
     doc.end();
