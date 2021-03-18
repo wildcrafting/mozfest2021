@@ -18,9 +18,9 @@ function Artifact(basket, biomes){
     var tree;
     var poppinsFont;
 
-    p.preload = function (){
-      poppinsFont = p.loadFont('../assets/Poppins-Regular.ttf');
-    }
+    // p.preload = function (){
+      // poppinsFont = p.loadFont('../assets/Poppins-Regular.ttf');
+    // }
     p.setup = async function() {
       p.frameRate(24);
       p.textSize(12);
