@@ -3,12 +3,11 @@ html {
   text-transform: lowercase;
 }
 
-#card #photo-container {
-  max-height: 45%;
-}
-#card #photo-container #photo {
+#card #photo {
   position: relative;
-  transform: translate(0, -50%);
+  height: 44vh;
+  width: 100%;
+  background-size: cover;
 }
 
 #pano {
@@ -36,4 +35,12 @@ html {
 
 #view-cards:first-child {
   padding: 0 5px;
+}
+
+.divider {
+  margin: 32px auto;
+}
+
+#overlay {
+  overflow-y: auto;
 }

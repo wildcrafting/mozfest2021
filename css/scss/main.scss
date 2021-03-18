@@ -4,16 +4,14 @@ html {
 }
 
 #card {
-  #photo-container {
-    max-height: 45%;
-    // overflow: hidden;
     #photo {
       position: relative;
-      // top: 50%;
-      transform: translate(0,-50%);
+      height: 44vh;
+      width: 100%;
+      background-size: cover;
     }
-  }
 }
+
 
 
 #pano {
@@ -40,4 +38,12 @@ html {
 
 #view-cards:first-child {
   padding: 0 5px;
+}
+
+.divider {
+  margin: 32px auto;
+}
+
+#overlay {
+  overflow-y: auto;
 }

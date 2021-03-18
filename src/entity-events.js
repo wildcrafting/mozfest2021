@@ -43,6 +43,7 @@ var displayObservationCard = (index, observations, basket, biomes) => {
   window.setTimeout(function(){
     $("#overlay-container").animate({top:0});
   },700);
+  $("#overlay").scrollTop(0);
 }
 
 var populateCard = (parent, observation, index) => {
@@ -53,9 +54,9 @@ var populateCard = (parent, observation, index) => {
       var tag = index ? "#photo" + (index) : "#photo";
 
       if (observation.hasOwnProperty('observation_photo_attachment')) {
-        $(tag).attr('src', observation["observation_photo_attachment"][0]["url"]);
+        $(tag).css('background-image', 'url(' + observation["observation_photo_attachment"][0]["url"] + ')');
       } else {
-        $(tag).attr('src', observation["default_photo"]);
+        $(tag).css('background-image', 'url(' + observation["default_photo"] + ')');
       }
     } else if (inat_data[j] == "participant_name") {
       if(observation[inat_data[j]]){

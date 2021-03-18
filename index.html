@@ -111,15 +111,15 @@
       </div>
     </div>
 
-  <div id="overlay-container" class="w-full h-screen transition ease-out visible flex"
-    style="display: flex; position: absolute; top: 100vh; left: 0; z-index: 2">
+  <div id="overlay-container" class="w-full h-screen transition ease-out visible flex z-30"
+    style="position: absolute; top: 100vh; left: 0;">
     <div id="overlay"
-      class="m-6 p-6 text-center max-w-lg flex flex-col justify-between justify-items-center items-center bg-yellow-50">
-      <div id="card" class="flex flex-col justify-items-center items-center overflow-y-auto">
+      class="m-6 p-6 text-center max-w-lg justify-items-center items-center bg-yellow-50">
+      <div id="card" class="justify-items-center items-center">
         <i class="fal fa-seedling mb-6 text-xl text-gray-700"></i>
-        <div id="photo-container" style="overflow: clip;">
-          <img id="photo" style="top:50%;">
-        </div>
+        <!-- <div id="photo-container" style="overflow: clip;"> -->
+          <div id="photo"xs></div>
+        <!-- </div> -->
         <div class="flex flex-col items-center">
           <!-- <div class="divider my-8 w-12 border-b border-gray-700"></div> -->
           <div class="mt-6 text-md font-light text-gray-700"><span id="participant_name" class="font-semibold"></span>
@@ -134,7 +134,7 @@
       </div>
       <button id="close"
         class="fal fa-dice-d10 focus:outline-none text-gray-700 text-2xl p-3 hover:bg-yellow-100 flex items-center rounded-full border border-gray-700 mt-6"
-        style=""></button>
+        style="margin-bottom: 32px;"></button>
     </div>
   </div>
 
