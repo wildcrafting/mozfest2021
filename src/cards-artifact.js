@@ -24,7 +24,7 @@ function Artifact(basket, biomes){
     p.setup = async function() {
       p.frameRate(24);
       p.textSize(12);
-      p.textFont(poppinsFont);
+      // p.textFont(poppinsFont);
 
       var elem = document.getElementById("artifact-container");
       var dimensions = elem.clientWidth > 600? 600: elem.clientWidth;
