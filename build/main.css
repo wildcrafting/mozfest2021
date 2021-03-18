@@ -1,6 +1,7 @@
 html {
   font-family: 'Poppins', sans-serif;
-  text-transform: lowercase; }
+  text-transform: lowercase;
+  height: -webkit-fill-available; }
 
 #card #photo {
   position: relative;

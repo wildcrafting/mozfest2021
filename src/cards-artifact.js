@@ -107,7 +107,7 @@ function Artifact(basket, biomes){
     var width = outerElem.clientWidth;
     var height = outerElem.clientHeight;
     var margin = width > 600 ? 100 : 50;
-    var imageMargin = width > 600 ? margin : 10;
+    var imageMargin = width > 500 ? margin : 0;
     var quoteFontSize = width > 600 ? 16 : 12;
     var plantPath = width > 600 ? 'M143.5,95.6c-9.9,0-18.2,8.2-20.4,19.2c-3.6-7.5-10.4-12.6-18.2-12.6h-7.2v1.7c0,13.7,9.4,24.8,20.9,24.8h3.8v12.4 c0,0.5,0.4,0.8,0.8,0.8h1.7c0.5,0,0.8-0.4,0.8-0.8v-19h3.8c11.5,0,20.9-11.1,20.9-24.8v-1.7H143.5z M118.7,125.3 c-9.3,0-16.9-8.8-17.6-19.8h3.8c9.3,0,16.9,8.8,17.6,19.8H118.7L118.7,125.3z M129.7,118.7h-3.8c0.7-11.1,8.3-19.8,17.6-19.8h3.8 C146.6,109.9,139,118.7,129.7,118.7L129.7,118.7z' : 'M93.4,48.5c-9.9,0-18.2,8.2-20.4,19.2c-3.6-7.5-10.4-12.6-18.2-12.6h-7.2v1.7c0,13.7,9.4,24.8,20.9,24.8h3.8v12.4   c0,0.5,0.4,0.8,0.8,0.8h1.7c0.5,0,0.8-0.4,0.8-0.8v-19h3.8c11.5,0,20.9-11.1,20.9-24.8v-1.7H93.4z M68.6,78.2 c-9.3,0-16.9-8.8-17.6-19.8h3.8c9.3,0,16.9,8.8,17.6,19.8H68.6L68.6,78.2z M79.6,71.6h-3.8c0.7-11.1,8.3-19.8,17.6-19.8h3.8 C96.5,62.8,88.9,71.6,79.6,71.6L79.6,71.6z';
     var contentWidth = width < 400 ? width - (margin * 2) : 400;
@@ -129,7 +129,7 @@ function Artifact(basket, biomes){
 
     doc.font("Helvetica-Bold");
     doc.rect(0, 0, width, height).fill("#FFFBEB");
-    doc.moveTo(0, 0);
+    doc.moveTo(margin, 0);
     doc.fillColor("#000000")
     // cover
     doc.fontSize(36).text('wildcrafting', {width: contentWidth, align: 'left'});
@@ -138,9 +138,10 @@ function Artifact(basket, biomes){
     doc.fontSize(12).text("an exhibit", {width: contentWidth, align: 'left', underline: true, link: "https://wildcrafting.github.io/mozfest2021/", continued : true}).fontSize(12).text(" by ulu mills, devika singh, cathryn ploehn, and jessica liu.", {underline: false});
     doc.moveDown();
 
+    doc.moveTo(0, 0);
     var canvas = document.getElementById("artifactCanvas");
     var image = canvas.toDataURL("image/png");
-    doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [artifactImageWidth, artifactImageWidth], align: 'left', valign: 'bottom', x: margin}); // this will decode your base64 to a new buffer
+    doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [artifactImageWidth, artifactImageWidth], align: 'left', valign: 'bottom', x: imageMargin}); // this will decode your base64 to a new buffer
 
     var quote = '"It has to do with the realization that we are all beings on the same earth, and that we all need the same things to flourish. Water, for example. When I pay attention to how birds interact with water, or how mosses interact with water, or how lichens interact with water, I feel a kinship with them. I know what a cold drink of water feels like, but what would it be like to drink water over my entire body, as a lichen does? Kinship also comes from our reciprocal relationship with other species. Sitting here, you can get a whiff of ripe wild strawberries off the hillside. They are fulfilling their responsibility to us, and we will fulfill our responsibility to them. Those berries provide us with food and medicine, and in reciprocity, we perhaps unwittingly disperse their seeds and tend their habitat so they can continue to thrive. It’s like a family: we help each other out." \n\n Dr. Robin Wall Kimmerer';
     quote = quote.toLowerCase();
