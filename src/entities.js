@@ -171,7 +171,7 @@ var entities = (observations, basket, biomes) => {
         for(var i = 0; i < this.data.cards.length; i++){
           // var randomPoint = points[Math.floor(Math.random() * 70) + 10];
 
-          var randomPoint = rootPoints[i%6][Math.floor((i/this.data.cards.length)*100) + 20];
+          var randomPoint = rootPoints[i%6][Math.floor((i/this.data.cards.length)*20) + Math.floor(Math.random() * 15) + 45];
           var cardEl = document.createElement('a-entity');
           var sch = {position: randomPoint, index: this.data.cards[i]};
 

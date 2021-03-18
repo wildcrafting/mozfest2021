@@ -140,7 +140,7 @@ function Artifact(basket, biomes){
 
     var canvas = document.getElementById("artifactCanvas");
     var image = canvas.toDataURL("image/png");
-    doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [artifactImageWidth, artifactImageWidth], align: 'left', valign: 'bottom'}); // this will decode your base64 to a new buffer
+    doc.image(new Buffer.from(image.replace('data:image/png;base64,',''), 'base64'), {fit: [artifactImageWidth, artifactImageWidth], align: 'left', valign: 'bottom', x: margin}); // this will decode your base64 to a new buffer
 
     var quote = '"It has to do with the realization that we are all beings on the same earth, and that we all need the same things to flourish. Water, for example. When I pay attention to how birds interact with water, or how mosses interact with water, or how lichens interact with water, I feel a kinship with them. I know what a cold drink of water feels like, but what would it be like to drink water over my entire body, as a lichen does? Kinship also comes from our reciprocal relationship with other species. Sitting here, you can get a whiff of ripe wild strawberries off the hillside. They are fulfilling their responsibility to us, and we will fulfill our responsibility to them. Those berries provide us with food and medicine, and in reciprocity, we perhaps unwittingly disperse their seeds and tend their habitat so they can continue to thrive. It’s like a family: we help each other out." \n\n Dr. Robin Wall Kimmerer';
     quote = quote.toLowerCase();
